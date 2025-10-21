@@ -108,6 +108,7 @@
       border-radius: 10px; font-size: 1.1rem;
       box-sizing: border-box; background: rgba(255,255,255,0.9);
       color: #333; margin-bottom: 20px;
+      resize: vertical;
     }
     .input-field:focus {
       outline: none; border-color: #ff8c42;
@@ -138,6 +139,12 @@
     }
     .wish-text {
       font-size: 1.15rem; color: #ffebcd; line-height: 1.7;
+    }
+    #customMessageDisplay {
+      font-style: italic;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
     }
     .sender-note {
       margin-top: 25px; font-style: italic;
@@ -217,6 +224,7 @@
     <div id="creation-form" class="card">
       <h2>Create Your Diwali Wish</h2>
       <input type="text" id="senderNameInput" class="input-field" placeholder="Enter Your Name..." required>
+      <textarea id="customMessageInput" class="input-field" placeholder="Add a personal message (optional)..." rows="3"></textarea>
       <button id="createBtn" onclick="createWish()">Create Wish Link ✨</button>
     </div>
   </template>
@@ -227,6 +235,7 @@
       <div class="gif-container">
         <img src="https://i.imgur.com/7z3kR9b.gif" alt="Happy Diwali Animated GIF">
       </div>
+      <p id="customMessageDisplay" class="wish-text"></p>
       <p class="wish-text">May the festival of lights fill your life with a glow of happiness and a sparkle of joy. ✨</p>
       <p class="wish-text">Wishing you a prosperous and wonderful New Year! 🎉</p>
       <p class="sender-note">
@@ -271,6 +280,7 @@
     const handlePageLoad = () => {
       const params = new URLSearchParams(window.location.search);
       const senderName = params.get('from');
+      const customMessage = params.get('msg'); // Check for a custom message
 
       if (senderName) {
         // If a sender's name is in the URL, show the greeting card
@@ -283,6 +293,16 @@
         // Fill in the sender's name
         $('#senderNameDisplay').textContent = decodedSender;
         document.title = `A Diwali Wish from ${decodedSender}!`;
+
+        // Display the custom message if it exists
+        if (customMessage) {
+            const decodedMessage = decodeURIComponent(customMessage.replace(/\+/g, ' '));
+            const messageElement = $('#customMessageDisplay');
+            messageElement.textContent = `"${decodedMessage}"`;
+        } else {
+            // If no custom message, hide the paragraph element
+            $('#customMessageDisplay').style.display = 'none';
+        }
         
         // Try to play music automatically (might be blocked by browser)
         $('#bgMusic').play().catch(() => {});
@@ -297,13 +317,22 @@
     // Function called by the "Create" button
     const createWish = () => {
       const senderName = $('#senderNameInput').value.trim();
+      const customMessage = $('#customMessageInput').value.trim(); // Get custom message
+
       if (!senderName) {
         showToast('Please enter your name!');
         return;
       }
-      // Create the new URL and redirect the page
+      
+      // Create the new URL with sender's name and custom message
       const encodedSender = encodeURIComponent(senderName);
-      const wishURL = `${window.location.origin}${window.location.pathname}?from=${encodedSender}`;
+      let wishURL = `${window.location.origin}${window.location.pathname}?from=${encodedSender}`;
+
+      if (customMessage) {
+        const encodedMessage = encodeURIComponent(customMessage);
+        wishURL += `&msg=${encodedMessage}`;
+      }
+      
       window.location.href = wishURL;
     };
 
@@ -320,11 +349,20 @@
     const shareToWhatsApp = () => {
       const senderName = $('#senderNameDisplay').textContent;
       const link = window.location.href;
+      const params = new URLSearchParams(window.location.search);
+      const customMessage = params.get('msg');
       
-      const message = encodeURIComponent(
-        `🪔✨ ${senderName} is sending you warm wishes for a Happy Diwali & a Prosperous New Year! 🎉\n\nClick the link to see your special greeting:\n${link}`
-      );
+      let messageText = `🪔✨ ${senderName} is sending you warm wishes for a Happy Diwali & a Prosperous New Year! 🎉\n\n`;
       
+      // Add the custom message to the share text if it exists
+      if(customMessage) {
+        const decodedMessage = decodeURIComponent(customMessage.replace(/\+/g, ' '));
+        messageText += `"${decodedMessage}"\n\n`;
+      }
+
+      messageText += `Click the link to see your special greeting:\n${link}`;
+
+      const message = encodeURIComponent(messageText);
       const whatsappURL = `https://api.whatsapp.com/send?text=${message}`;
       window.open(whatsappURL, '_blank');
     };
