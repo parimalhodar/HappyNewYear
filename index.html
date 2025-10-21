@@ -18,12 +18,14 @@
             background: linear-gradient(135deg, #0a0015 0%, #1a0033 50%, #2d0052 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             cursor: pointer;
-            touch-action: pan-y;
+            padding: 30px 0;
         }
 
         .fireworks-canvas {
@@ -43,11 +45,7 @@
             padding: 15px;
             max-width: 600px;
             width: 95%;
-            pointer-events: none;
-        }
-
-        .container > * {
-            pointer-events: auto;
+            margin: auto;
         }
 
         .diya-container {
@@ -80,24 +78,6 @@
             box-shadow: 0 8px 32px rgba(255, 165, 0, 0.3);
             border: 2px solid rgba(255, 165, 0, 0.3);
             animation: slideIn 1s ease-out;
-            max-height: 85vh;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 215, 0, 0.5) transparent;
-        }
-
-        .greeting-card::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .greeting-card::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .greeting-card::-webkit-scrollbar-thumb {
-            background: rgba(255, 215, 0, 0.5);
-            border-radius: 3px;
         }
 
         @keyframes slideIn {
@@ -292,6 +272,34 @@
             50% { transform: translateX(-50%) translateY(-10px); }
         }
 
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-text {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ffb347;
+            text-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+        }
+
+        .footer-email {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-email:hover {
+            color: #ffd700;
+        }
+
         @media (max-width: 600px) {
             .title { 
                 font-size: 34px;
@@ -306,8 +314,15 @@
                 font-size: 20px;
             }
             .greeting-card { 
-                padding: 25px 18px;
-                max-height: 83vh;
+                padding: 20px 15px;
+            }
+            .footer {
+                padding: 20px 15px;
+                margin-top: 20px;
+                font-size: 13px;
+            }
+            .footer-email {
+                font-size: 12px;
             }
             .diya {
                 font-size: 60px;
@@ -414,6 +429,11 @@
         </div>
     </div>
 
+    <footer class="footer">
+        <div class="footer-text">Developed by Parimal Hodar</div>
+        <a href="mailto:parimalhodar.dev@gmail.com" class="footer-email">parimalhodar.dev@gmail.com</a>
+    </footer>
+
     <script>
         // Prevent accidental zoom on double tap
         let lastTouchEnd = 0;
@@ -487,7 +507,7 @@
             let message, url;
             
             if (senderName) {
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${senderName}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${senderName}" ✨\n\nView the animated greeting card here:\n`;
                 url = window.location.href;
             } else {
                 const name = document.getElementById('nameInput').value.trim();
@@ -497,7 +517,7 @@
                 }
                 const baseUrl = window.location.origin + window.location.pathname;
                 url = `${baseUrl}?from=${encodeURIComponent(name)}`;
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${name}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${name}" ✨\n\nView the animated greeting card here:\n`;
             }
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
