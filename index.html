@@ -14,13 +14,14 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #4a0080 100%);
+            background: linear-gradient(135deg, #0a0015 0%, #1a0033 50%, #2d0052 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
         }
 
         .fireworks-canvas {
@@ -29,7 +30,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
             z-index: 1;
         }
 
@@ -40,6 +40,11 @@
             padding: 20px;
             max-width: 600px;
             width: 90%;
+            pointer-events: none;
+        }
+
+        .container > * {
+            pointer-events: auto;
         }
 
         .diya-container {
@@ -174,13 +179,6 @@
             50% { transform: scale(1.5); opacity: 0.7; }
         }
 
-        .sparkles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
         @media (max-width: 600px) {
             .title { font-size: 36px; }
             .subtitle { font-size: 18px; }
@@ -236,11 +234,55 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
         }
+
+        .tap-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            z-index: 10;
+            animation: bounce 2s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .sound-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
     </style>
 </head>
 <body>
     <canvas class="fireworks-canvas" id="fireworks"></canvas>
     
+    <div class="sound-toggle" id="soundToggle" title="Toggle Sound">🔊</div>
+    <div class="tap-hint">👆 Tap anywhere to light crackers! 🎆</div>
+
     <div class="container">
         <div class="diya-container">
             <div class="diya">🪔</div>
@@ -287,6 +329,66 @@
     </div>
 
     <script>
+        // Sound management
+        let soundEnabled = true;
+        const soundToggle = document.getElementById('soundToggle');
+
+        soundToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            soundEnabled = !soundEnabled;
+            soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+        });
+
+        // Audio context for cracker sounds
+        let audioContext;
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBurstSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = Math.random() * 500 + 200;
+            oscillator.type = 'sawtooth';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        function playCrackleSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = Math.random() * 1000 + 500;
+                    oscillator.type = 'square';
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.05);
+                }, i * 30);
+            }
+        }
+
         // Get sender name from URL
         function getSenderName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -325,11 +427,9 @@
             let message, url;
             
             if (senderName) {
-                // If viewing someone's wish, share it
-                message = `🪔 *Happy Diwali!* 🎆\n\n${senderName} has sent you beautiful Diwali wishes! ✨\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali!* 🎆\n\n${senderName} has sent you beautiful Diwali wishes! ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
                 url = window.location.href;
             } else {
-                // If no name, prompt to create personalized wish
                 const name = document.getElementById('nameInput').value.trim();
                 if (!name) {
                     alert('Please enter your name first to create a personalized wish!');
@@ -337,7 +437,7 @@
                 }
                 const baseUrl = window.location.origin + window.location.pathname;
                 url = `${baseUrl}?from=${encodeURIComponent(name)}`;
-                message = `🪔 *Happy Diwali!* 🎆\n\nI've created a special Diwali wish for you! ✨\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali!* 🎆\n\nI've created a special Diwali wish for you! ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
             }
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
@@ -357,71 +457,198 @@
         });
 
         class Particle {
-            constructor(x, y, color) {
+            constructor(x, y, color, speed = 1) {
                 this.x = x;
                 this.y = y;
                 this.color = color;
                 this.velocity = {
-                    x: (Math.random() - 0.5) * 8,
-                    y: (Math.random() - 0.5) * 8
+                    x: (Math.random() - 0.5) * 10 * speed,
+                    y: (Math.random() - 0.5) * 10 * speed
                 };
                 this.alpha = 1;
-                this.decay = Math.random() * 0.02 + 0.01;
+                this.decay = Math.random() * 0.015 + 0.015;
+                this.radius = Math.random() * 3 + 1;
+                this.gravity = 0.15;
             }
 
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
+                
+                // Draw glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 3);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw particle
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fill();
+                
                 ctx.restore();
             }
 
             update() {
-                this.velocity.y += 0.1;
+                this.velocity.y += this.gravity;
                 this.x += this.velocity.x;
                 this.y += this.velocity.y;
                 this.alpha -= this.decay;
             }
         }
 
-        let particles = [];
-        const colors = ['#ffd700', '#ffb347', '#ff6347', '#ff1493', '#00ffff', '#00ff00'];
+        class Spark {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 2;
+                this.velocity = {
+                    x: Math.cos(angle) * speed,
+                    y: Math.sin(angle) * speed
+                };
+                this.alpha = 1;
+                this.decay = 0.02;
+                this.length = Math.random() * 20 + 10;
+            }
 
-        function createFirework() {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height * 0.6;
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            
-            for (let i = 0; i < 30; i++) {
-                particles.push(new Particle(x, y, color));
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.velocity.x * 2, this.y - this.velocity.y * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.velocity.y += 0.2;
+                this.alpha -= this.decay;
             }
         }
 
+        let particles = [];
+        let sparks = [];
+        const colors = ['#ffd700', '#ffb347', '#ff6347', '#ff1493', '#00ffff', '#00ff00', '#ffffff', '#ff69b4'];
+
+        function createFirework(x, y, intensity = 1) {
+            initAudio();
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const particleCount = 50 * intensity;
+            
+            // Create burst particles
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, color, intensity));
+            }
+            
+            // Create sparks
+            for (let i = 0; i < 15 * intensity; i++) {
+                sparks.push(new Spark(x, y, color));
+            }
+            
+            // Play sound
+            playBurstSound();
+            setTimeout(() => playCrackleSound(), 100);
+        }
+
         function animate() {
-            ctx.fillStyle = 'rgba(26, 0, 51, 0.1)';
+            ctx.fillStyle = 'rgba(10, 0, 21, 0.15)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            particles.forEach((particle, index) => {
+            // Update and draw particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const particle = particles[i];
                 if (particle.alpha <= 0) {
-                    particles.splice(index, 1);
+                    particles.splice(i, 1);
                 } else {
                     particle.update();
                     particle.draw();
                 }
-            });
+            }
+
+            // Update and draw sparks
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const spark = sparks[i];
+                if (spark.alpha <= 0) {
+                    sparks.splice(i, 1);
+                } else {
+                    spark.update();
+                    spark.draw();
+                }
+            }
 
             requestAnimationFrame(animate);
         }
 
-        // Create fireworks periodically
-        setInterval(createFirework, 800);
+        // Handle clicks and touches
+        let lastFireworkTime = 0;
+        const minFireworkInterval = 100;
+
+        function handleInteraction(e) {
+            e.preventDefault();
+            const now = Date.now();
+            
+            if (now - lastFireworkTime < minFireworkInterval) return;
+            lastFireworkTime = now;
+
+            let x, y;
+            if (e.type.startsWith('touch')) {
+                const touch = e.touches[0] || e.changedTouches[0];
+                x = touch.clientX;
+                y = touch.clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+
+            createFirework(x, y, 1.5);
+        }
+
+        canvas.addEventListener('click', handleInteraction);
+        canvas.addEventListener('touchstart', handleInteraction);
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0) {
+                handleInteraction(e);
+            }
+        });
+
+        // Auto fireworks
+        function autoFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.6;
+            createFirework(x, y, 0.8);
+        }
+
+        setInterval(autoFirework, 2000);
+
+        // Start animation
         animate();
 
         // Initialize page on load
         initializePage();
+
+        // Hide tap hint after first interaction
+        let hintHidden = false;
+        function hideHint() {
+            if (!hintHidden) {
+                document.querySelector('.tap-hint').style.display = 'none';
+                hintHidden = true;
+            }
+        }
+
+        canvas.addEventListener('click', hideHint, { once: true });
+        canvas.addEventListener('touchstart', hideHint, { once: true });
     </script>
 </body>
 </html>
