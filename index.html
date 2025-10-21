@@ -24,10 +24,10 @@
     text-shadow: 0 0 15px #ffcc00;
   }
   .sender-name {
-    font-size: 1.2em;
+    font-size: 1.3em; /* Slightly larger for emphasis */
     color: #fff;
     margin-top: 10px;
-    min-height: 1.2em; /* Prevents layout shift when name loads */
+    min-height: 1.3em; /* Prevents layout shift */
   }
   .share-btn {
     background: linear-gradient(45deg, #25D366, #128C7E);
@@ -84,10 +84,10 @@
 <body>
 
   <h1>🎇 Happy Diwali</h1>
-  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay"></span></p>
+  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay">Loading...</span></p>
 
   <div id="inputForm" class="name-input-container" style="display: none;">
-    <p>Enter your name to personalize your wish:</p>
+    <p>Enter your name to see a preview and share:</p>
     <input type="text" id="userNameInput" placeholder="Your Name" maxlength="20">
     <button onclick="setNameAndShare()">Share Now</button>
   </div>
@@ -97,24 +97,21 @@
   </button>
 
   <script>
-    // 1. Function to get the 'name' parameter from the URL (?name=Sagar)
+    // Utility function to get the 'name' parameter from the URL (?name=Sagar)
     function getParameterByName(name, url = window.location.href) {
       name = name.replace(/[\[\]]/g, '\\$&');
       const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
             results = regex.exec(url);
       if (!results) return null;
       if (!results[2]) return '';
-      // Decode the URL part and replace '+' with space
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
-    // 2. Function to handle sharing after the name is set
+    // Function to handle sharing after the name is set
     function shareOnWhatsApp() {
-      // Get the name currently displayed on the page
       const currentSenderName = document.getElementById('senderNameDisplay').textContent;
       
-      // THIS IS THE KEY: We only use the base URL (e.g., https://parimalhodar.github.io/HappyNewYear/)
-      // The next receiver will be prompted to enter THEIR name.
+      // Get the base URL (e.g., https://parimalhodar.github.io/HappyNewYear/)
       const baseUrl = window.location.origin + window.location.pathname;
 
       // The personalized message for WhatsApp
@@ -125,7 +122,7 @@
       window.open(url, '_blank');
     }
 
-    // 3. Function to set the name from the input field and update the URL
+    // Function to set the name from the input field, update URL, and share
     function setNameAndShare() {
       const input = document.getElementById('userNameInput');
       let newSenderName = input.value.trim();
@@ -135,12 +132,10 @@
         newSenderName = newSenderName.charAt(0).toUpperCase() + newSenderName.slice(1);
         
         // Update the URL in the browser with the new name parameter
-        // e.g., .../index.html?name=Kiran
         const newUrl = window.location.origin + window.location.pathname + `?name=${encodeURIComponent(newSenderName)}`;
-        history.pushState(null, '', newUrl); // Updates URL without page reload
+        history.pushState(null, '', newUrl);
 
-        // Update the display and hide the form, show the share button
-        document.getElementById('senderNameDisplay').textContent = newSenderName;
+        // Hide the form and show the final share button
         document.getElementById('inputForm').style.display = 'none';
         document.getElementById('shareButton').style.display = 'block';
         document.title = `🎇 Happy Diwali from ${newSenderName}`;
@@ -153,25 +148,44 @@
       }
     }
 
-    // 4. Initialization function run on page load
+    // Function for real-time preview
+    function updatePreview() {
+      const input = document.getElementById('userNameInput');
+      const display = document.getElementById('senderNameDisplay');
+      let name = input.value.trim();
+      
+      if (name) {
+        // Capitalize for display consistency
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        display.textContent = name;
+      } else {
+        // Fallback when input is empty
+        display.textContent = 'A loved one';
+      }
+    }
+
+    // Initialization function run on page load
     function initializePage() {
       const senderNameDisplay = document.getElementById('senderNameDisplay');
       const shareButton = document.getElementById('shareButton');
       const inputForm = document.getElementById('inputForm');
+      const userNameInput = document.getElementById('userNameInput');
 
-      // Get the name from the URL parameter
       let senderName = getParameterByName('name');
 
       if (senderName) {
-        // A name was received (e.g., from a friend's share)
+        // View 1: Name was received
         senderName = senderName.trim();
         senderNameDisplay.textContent = senderName;
         shareButton.style.display = 'block'; 
         document.title = `🎇 Happy Diwali from ${senderName}`;
       } else {
-        // This is the first visit or they clicked the base share link
+        // View 2: No name, prompt user
         senderNameDisplay.textContent = 'A loved one';
-        inputForm.style.display = 'block'; // Prompt them to enter their name
+        inputForm.style.display = 'block';
+
+        // Add the REAL-TIME PREVIEW listener
+        userNameInput.addEventListener('input', updatePreview);
       }
     }
 
