@@ -251,36 +251,11 @@
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(-10px); }
         }
-
-        .sound-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 24px;
-            transition: all 0.3s ease;
-        }
-
-        .sound-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 215, 0, 0.6);
-        }
     </style>
 </head>
 <body>
     <canvas class="fireworks-canvas" id="fireworks"></canvas>
     
-    <div class="sound-toggle" id="soundToggle" title="Toggle Sound">🔊</div>
     <div class="tap-hint">👆 Tap anywhere to light crackers! 🎆</div>
 
     <div class="container">
@@ -329,66 +304,6 @@
     </div>
 
     <script>
-        // Sound management
-        let soundEnabled = true;
-        const soundToggle = document.getElementById('soundToggle');
-
-        soundToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            soundEnabled = !soundEnabled;
-            soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
-        });
-
-        // Audio context for cracker sounds
-        let audioContext;
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playBurstSound() {
-            if (!soundEnabled || !audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = Math.random() * 500 + 200;
-            oscillator.type = 'sawtooth';
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.3);
-        }
-
-        function playCrackleSound() {
-            if (!soundEnabled || !audioContext) return;
-            
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.value = Math.random() * 1000 + 500;
-                    oscillator.type = 'square';
-                    
-                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.05);
-                }, i * 30);
-            }
-        }
-
         // Get sender name from URL
         function getSenderName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -427,7 +342,7 @@
             let message, url;
             
             if (senderName) {
-                message = `🪔 *Happy Diwali!* 🎆\n\n${senderName} has sent you beautiful Diwali wishes! ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom :"${senderName}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
                 url = window.location.href;
             } else {
                 const name = document.getElementById('nameInput').value.trim();
@@ -437,7 +352,7 @@
                 }
                 const baseUrl = window.location.origin + window.location.pathname;
                 url = `${baseUrl}?from=${encodeURIComponent(name)}`;
-                message = `🪔 *Happy Diwali!* 🎆\n\nI've created a special Diwali wish for you! ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom :"${name}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
             }
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
@@ -542,7 +457,6 @@
         const colors = ['#ffd700', '#ffb347', '#ff6347', '#ff1493', '#00ffff', '#00ff00', '#ffffff', '#ff69b4'];
 
         function createFirework(x, y, intensity = 1) {
-            initAudio();
             const color = colors[Math.floor(Math.random() * colors.length)];
             const particleCount = 50 * intensity;
             
@@ -555,10 +469,6 @@
             for (let i = 0; i < 15 * intensity; i++) {
                 sparks.push(new Spark(x, y, color));
             }
-            
-            // Play sound
-            playBurstSound();
-            setTimeout(() => playCrackleSound(), 100);
         }
 
         function animate() {
@@ -622,15 +532,6 @@
                 handleInteraction(e);
             }
         });
-
-        // Auto fireworks
-        function autoFirework() {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height * 0.6;
-            createFirework(x, y, 0.8);
-        }
-
-        setInterval(autoFirework, 2000);
 
         // Start animation
         animate();
