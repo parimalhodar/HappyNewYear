@@ -76,6 +76,8 @@
             box-shadow: 0 8px 32px rgba(255, 165, 0, 0.3);
             border: 2px solid rgba(255, 165, 0, 0.3);
             animation: slideIn 1s ease-out;
+            max-height: 80vh; /* Restrict height to enable scrollbar */
+            overflow-y: auto; /* Enable vertical scrollbar */
         }
 
         @keyframes slideIn {
@@ -216,7 +218,7 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
-        .create-btn {
+        .create-btn, .update-btn {
             background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
             color: #2d0052;
             border: none;
@@ -230,7 +232,7 @@
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
 
-        .create-btn:hover {
+        .create-btn:hover, .update-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
         }
@@ -288,12 +290,14 @@
 
             <div id="senderDisplay">
                 <p class="sender-name">~ <span id="senderName">Your Friend</span> 💫</p>
+                <button class="update-btn" id="updateNameBtn" onclick="showUpdateName()">Update Name</button>
             </div>
 
             <div class="name-input-container" id="nameInputContainer">
                 <input type="text" class="name-input" id="nameInput" placeholder="Enter your name">
                 <br>
                 <button class="create-btn" onclick="createPersonalizedLink()">Create My Wish</button>
+                <button class="create-btn" id="saveNameBtn" onclick="updatePersonalizedLink()" style="display: none;">Save New Name</button>
             </div>
 
             <button class="share-btn" onclick="shareOnWhatsApp()">
@@ -318,10 +322,22 @@
                 document.getElementById('senderName').textContent = senderName;
                 document.getElementById('senderDisplay').style.display = 'block';
                 document.getElementById('nameInputContainer').style.display = 'none';
+                document.getElementById('updateNameBtn').style.display = 'block';
             } else {
                 document.getElementById('senderDisplay').style.display = 'none';
                 document.getElementById('nameInputContainer').style.display = 'block';
+                document.getElementById('updateNameBtn').style.display = 'none';
             }
+            document.getElementById('nameInput').value = senderName || '';
+        }
+
+        // Show name input for updating
+        function showUpdateName() {
+            document.getElementById('nameInputContainer').style.display = 'block';
+            document.getElementById('createBtn').style.display = 'none';
+            document.getElementById('saveNameBtn').style.display = 'block';
+            document.getElementById('updateNameBtn').style.display = 'none';
+            document.getElementById('nameInput').focus();
         }
 
         // Create personalized link
@@ -333,6 +349,18 @@
                 window.location.href = personalizedUrl;
             } else {
                 alert('Please enter your name!');
+            }
+        }
+
+        // Update personalized link with new name
+        function updatePersonalizedLink() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name) {
+                const baseUrl = window.location.origin + window.location.pathname;
+                const personalizedUrl = `${baseUrl}?from=${encodeURIComponent(name)}`;
+                window.location.href = personalizedUrl;
+            } else {
+                alert('Please enter a new name!');
             }
         }
 
