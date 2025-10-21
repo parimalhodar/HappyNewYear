@@ -1,375 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="🎇 Happy Diwali & New Year 2025 🎆">
-<meta property="og:description" content="Wishing you a bright Diwali and a joyful New Year filled with happiness, success, and peace! 🌟">
-<meta property="og:image" content="https://i.imgur.com/ZwM0u4v.jpg">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yourname.netlify.app">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Diwali & New Year 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<title>Happy Diwali & New Year 2025 🎉</title>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a0033, #000000);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
 
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+        }
 
-  body {
-    overflow: hidden;
-    background: radial-gradient(circle at center, #1a0033, #000000);
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    color: #fff;
-    min-height: 100vh;
-    position: relative;
-  }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+        }
 
-  .container {
-    z-index: 10;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-  }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #ff9933;
+        }
 
-  h1 {
-    font-size: 3em;
-    text-shadow: 0 0 20px #ff9933;
-    background: linear-gradient(to right, #ff9933, #ffcc00, #ff9933);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glow 2s infinite alternate;
-  }
+        .message-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #ff9933;
+        }
 
-  h2 {
-    font-size: 2em;
-    color: #ffe57f;
-    text-shadow: 0 0 10px #ffcc00;
-    animation: fade 4s infinite alternate;
-  }
+        .message {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
 
-  @keyframes glow {
-    0% { text-shadow: 0 0 10px #ff9933; }
-    100% { text-shadow: 0 0 25px #ffcc00; }
-  }
+        .sender {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 15px;
+        }
 
-  @keyframes fade {
-    0% { opacity: 0.8; }
-    100% { opacity: 1; transform: translateY(-5px); }
-  }
+        .input-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
 
-  p {
-    font-size: 1.3em;
-    margin: 20px;
-    max-width: 90%;
-    text-shadow: 0 0 8px rgba(255,255,255,0.5);
-  }
+        input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-  .buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+        .btn {
+            background: linear-gradient(to right, #ff9933, #ff6600);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            margin: 15px 10px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 153, 51, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-  button {
-    background: linear-gradient(to right, #ff9933, #ff6600);
-    color: white;
-    font-size: 1.1em;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 153, 51, 0.6);
+        }
 
-  button:hover {
-    background: linear-gradient(to right, #ffcc00, #ff9933);
-    transform: translateY(-2px);
-  }
+        .btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
 
-  .diya-container {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 30px;
-  }
+        .diya-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
 
-  .diya {
-    width: 60px;
-    height: 30px;
-    background: #ff6600;
-    border-radius: 50% 50% 40% 40%;
-    position: relative;
-    box-shadow: 0 0 15px #ff9933;
-  }
+        .diya {
+            width: 60px;
+            height: 30px;
+            background: #ff6600;
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            box-shadow: 0 0 15px #ff9933;
+        }
 
-  .diya::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 20px;
-    background: #ffcc00;
-    border-radius: 50% 50% 20% 20%;
-    box-shadow: 0 0 20px #ffcc00;
-    animation: flame 1.5s infinite alternate;
-  }
+        .diya::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 20px;
+            background: #ffcc00;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 20px #ffcc00;
+        }
 
-  @keyframes flame {
-    0%, 100% { height: 20px; opacity: 0.9; }
-    50% { height: 23px; opacity: 1; }
-  }
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .floating-text {
-    position: absolute;
-    font-size: 1.2em;
-    color: #ffcc00;
-    opacity: 0.8;
-    animation: float 12s infinite linear;
-  }
-
-  @keyframes float {
-    0% { transform: translateY(100vh); opacity: 0; }
-    20% { opacity: 0.8; }
-    100% { transform: translateY(-100px); opacity: 0; }
-  }
-
-  footer {
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
-    font-size: 1em;
-    opacity: 0.8;
-    z-index: 10;
-  }
-
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-content {
-    background: linear-gradient(135deg, #ff9933, #6600cc);
-    padding: 25px;
-    border-radius: 15px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(255,153,51,0.8);
-  }
-
-  .close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #fff;
-  }
-
-  .share-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-    flex-wrap: wrap;
-  }
-
-  .share-btn {
-    padding: 10px 20px;
-    border-radius: 30px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .whatsapp { background: #25D366; }
-  .facebook { background: #3b5998; }
-  .twitter { background: #1DA1F2; }
-
-  input {
-    width: 80%;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-
-  @media (max-width: 768px) {
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 1.5em; }
-    p { font-size: 1.1em; }
-  }
-</style>
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .diya-container {
+                gap: 15px;
+            }
+            
+            .diya {
+                width: 45px;
+                height: 22px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-<canvas id="fireworks"></canvas>
-
-<div class="container">
-  <h1>🪔 Happy Diwali 🪔</h1>
-  <h2>🎉 & Happy New Year 2025 🎆</h2>
-  <p>May your life shine bright with joy, prosperity, and endless happiness! 🌟</p>
-
-  <div class="buttons">
-    <button onclick="playMusic()">🔊 Play Music</button>
-    <button onclick="stopMusic()">🔇 Stop</button>
-    <button onclick="showShareModal()">📤 Share Wishes</button>
-  </div>
-</div>
-
-<div class="diya-container">
-  <div class="diya"></div>
-  <div class="diya"></div>
-  <div class="diya"></div>
-</div>
-
-<div id="shareModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeShareModal()">&times;</span>
-    <h3>Share Diwali Wishes</h3>
-    <p>Enter your name to include in your Diwali message:</p>
-    <input type="text" id="senderName" placeholder="Your Name">
-    <div class="share-buttons">
-      <a href="#" class="share-btn whatsapp" id="whatsapp-share">WhatsApp</a>
-      <a href="#" class="share-btn facebook" id="facebook-share">Facebook</a>
-      <a href="#" class="share-btn twitter" id="twitter-share">Twitter</a>
+    <div class="container">
+        <h1>🪔 Happy Diwali 🪔</h1>
+        <h2>🎉 & Happy New Year 2025 🎆</h2>
+        
+        <div class="message-box">
+            <p class="message">🎇 Happy Diwali & New Year 2025! 🎆 Wishing you a bright Diwali and a joyful New Year filled with happiness, success, and peace! 🌟</p>
+            <p class="sender" id="senderDisplay">FROM: </p>
+        </div>
+        
+        <div class="diya-container">
+            <div class="diya"></div>
+            <div class="diya"></div>
+            <div class="diya"></div>
+            <div class="diya"></div>
+            <div class="diya"></div>
+        </div>
+        
+        <div class="input-section">
+            <p>Enter your name to personalize the message:</p>
+            <input type="text" id="senderName" placeholder="Your Name">
+            <button class="btn" onclick="updateSender()">
+                <i class="fas fa-user-edit"></i> Update Sender
+            </button>
+        </div>
+        
+        <button class="btn" onclick="shareOnWhatsApp()">
+            <i class="fab fa-whatsapp"></i> Share on WhatsApp
+        </button>
     </div>
-  </div>
-</div>
+    
+    <footer>Made with ❤️ for Friends & Family</footer>
 
-<footer>Made with ❤️ for Friends & Family<br><span id="footerSender"></span></footer>
-
-<script>
-  // Simple background audio
-  const music = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-  music.loop = true;
-
-  function playMusic() {
-    music.play().catch(()=>alert("Please tap screen first to allow sound."));
-  }
-  function stopMusic() {
-    music.pause(); music.currentTime = 0;
-  }
-
-  // Share modal functions
-  function showShareModal() {
-    document.getElementById('shareModal').style.display = 'flex';
-    document.getElementById('senderName').addEventListener('input', updateShareLinks);
-    updateShareLinks();
-  }
-  function closeShareModal() {
-    document.getElementById('shareModal').style.display = 'none';
-  }
-
-  function updateShareLinks() {
-    const name = document.getElementById('senderName').value.trim() || "A well-wisher";
-    const shareText = `🎇 Happy Diwali & New Year 2025! 🎆\nWishing you a bright Diwali filled with happiness, success & peace! 🌟\nFrom: ${name}`;
-    const shareUrl = window.location.href;
-
-    document.getElementById('footerSender').textContent = "From: " + name;
-
-    document.getElementById('whatsapp-share').href =
-      `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + "\n" + shareUrl)}`;
-    document.getElementById('facebook-share').href =
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
-    document.getElementById('twitter-share').href =
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-  }
-
-  // Fireworks animation (limited count)
-  const canvas = document.getElementById('fireworks');
-  const ctx = canvas.getContext('2d');
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-
-  const particles = [];
-  function createFirework(x, y, color){
-    for(let i=0;i<50;i++){ // limited sparks
-      particles.push({
-        x, y,
-        angle: Math.random()*2*Math.PI,
-        speed: Math.random()*5+1,
-        alpha: 1,
-        color,
-        size: Math.random()*2+1,
-        gravity: 0.03
-      });
-    }
-  }
-
-  function loop(){
-    ctx.fillStyle = 'rgba(10,5,30,0.2)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    for(let i=particles.length-1;i>=0;i--){
-      const p = particles[i];
-      p.x += Math.cos(p.angle)*p.speed;
-      p.y += Math.sin(p.angle)*p.speed + p.gravity;
-      p.alpha -= 0.01;
-      if(p.alpha<=0) particles.splice(i,1);
-      else {
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-        ctx.fill();
-      }
-    }
-    requestAnimationFrame(loop);
-  }
-  loop();
-
-  // Light fireworks occasionally (smooth rate)
-  setInterval(()=>{
-    createFirework(
-      Math.random()*canvas.width,
-      Math.random()*canvas.height/2,
-      `hsl(${Math.random()*360},100%,60%)`
-    );
-  }, 1800); // slower rate
-
-  // Floating emoji (limited)
-  const floating = ["✨","🪔","🎆","🌟"];
-  for(let i=0;i<8;i++){
-    const el = document.createElement('div');
-    el.className = 'floating-text';
-    el.textContent = floating[Math.floor(Math.random()*floating.length)];
-    el.style.left = Math.random()*100 + 'vw';
-    el.style.animationDuration = (Math.random()*6+10)+'s';
-    document.body.appendChild(el);
-  }
-</script>
+    <script>
+        // Function to update sender name
+        function updateSender() {
+            const senderName = document.getElementById('senderName').value.trim();
+            const senderDisplay = document.getElementById('senderDisplay');
+            
+            if (senderName) {
+                senderDisplay.textContent = `FROM: ${senderName}`;
+                // Save to localStorage
+                localStorage.setItem('diwaliSender', senderName);
+            } else {
+                alert('Please enter your name');
+            }
+        }
+        
+        // Function to share on WhatsApp
+        function shareOnWhatsApp() {
+            const senderName = document.getElementById('senderName').value.trim() || 
+                              localStorage.getItem('diwaliSender') || 
+                              'Your Friend';
+            
+            const message = `🎇 Happy Diwali & New Year 2025! 🎆 Wishing you a bright Diwali and a joyful New Year filled with happiness, success, and peace! 🌟%0A%0AFROM: ${senderName}%0A%0Ahttps://parimalhodar.github.io/HappyNewYear/`;
+            
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Load saved sender name on page load
+        window.onload = function() {
+            const savedSender = localStorage.getItem('diwaliSender');
+            if (savedSender) {
+                document.getElementById('senderName').value = savedSender;
+                document.getElementById('senderDisplay').textContent = `FROM: ${savedSender}`;
+            }
+        };
+    </script>
 </body>
 </html>
