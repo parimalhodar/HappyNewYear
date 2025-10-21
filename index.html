@@ -24,7 +24,7 @@
     text-shadow: 0 0 15px #ffcc00;
   }
   .sender-name {
-    font-size: 1.3em; /* Slightly larger for emphasis */
+    font-size: 1.3em;
     color: #fff;
     margin-top: 10px;
     min-height: 1.3em; /* Prevents layout shift */
@@ -84,7 +84,7 @@
 <body>
 
   <h1>🎇 Happy Diwali</h1>
-  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay">Loading...</span></p>
+  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay"></span></p>
 
   <div id="inputForm" class="name-input-container" style="display: none;">
     <p>Enter your name to see a preview and share:</p>
@@ -97,7 +97,9 @@
   </button>
 
   <script>
-    // Utility function to get the 'name' parameter from the URL (?name=Sagar)
+    // --- Utility Functions ---
+
+    // Function to get the 'name' parameter from the URL (?name=Sagar)
     function getParameterByName(name, url = window.location.href) {
       name = name.replace(/[\[\]]/g, '\\$&');
       const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -106,6 +108,25 @@
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
+
+    // Function for real-time preview (UPDATED)
+    function updatePreview() {
+      const input = document.getElementById('userNameInput');
+      const display = document.getElementById('senderNameDisplay');
+      let name = input.value.trim();
+      
+      // Capitalize the first letter for the preview
+      if (name) {
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        display.textContent = name;
+      } else {
+        // Fallback when input is empty
+        display.textContent = 'A loved one';
+      }
+    }
+
+
+    // --- Core Logic Functions ---
 
     // Function to handle sharing after the name is set
     function shareOnWhatsApp() {
@@ -128,14 +149,15 @@
       let newSenderName = input.value.trim();
 
       if (newSenderName) {
-        // Capitalize the first letter for a cleaner look
+        // Capitalize the first letter for consistency in display and URL
         newSenderName = newSenderName.charAt(0).toUpperCase() + newSenderName.slice(1);
         
         // Update the URL in the browser with the new name parameter
         const newUrl = window.location.origin + window.location.pathname + `?name=${encodeURIComponent(newSenderName)}`;
         history.pushState(null, '', newUrl);
 
-        // Hide the form and show the final share button
+        // Update the display and switch modes
+        document.getElementById('senderNameDisplay').textContent = newSenderName;
         document.getElementById('inputForm').style.display = 'none';
         document.getElementById('shareButton').style.display = 'block';
         document.title = `🎇 Happy Diwali from ${newSenderName}`;
@@ -145,22 +167,6 @@
       } else {
         alert("Please enter your name to share!");
         input.focus();
-      }
-    }
-
-    // Function for real-time preview
-    function updatePreview() {
-      const input = document.getElementById('userNameInput');
-      const display = document.getElementById('senderNameDisplay');
-      let name = input.value.trim();
-      
-      if (name) {
-        // Capitalize for display consistency
-        name = name.charAt(0).toUpperCase() + name.slice(1);
-        display.textContent = name;
-      } else {
-        // Fallback when input is empty
-        display.textContent = 'A loved one';
       }
     }
 
@@ -177,14 +183,14 @@
         // View 1: Name was received
         senderName = senderName.trim();
         senderNameDisplay.textContent = senderName;
-        shareButton.style.display = 'block'; 
         document.title = `🎇 Happy Diwali from ${senderName}`;
+        shareButton.style.display = 'block'; 
       } else {
         // View 2: No name, prompt user
-        senderNameDisplay.textContent = 'A loved one';
+        senderNameDisplay.textContent = 'A loved one'; // Initial placeholder
         inputForm.style.display = 'block';
 
-        // Add the REAL-TIME PREVIEW listener
+        // Add the REAL-TIME PREVIEW listener ONLY when the input form is active
         userNameInput.addEventListener('input', updatePreview);
       }
     }
