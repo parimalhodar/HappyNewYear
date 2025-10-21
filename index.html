@@ -507,7 +507,7 @@
             let message, url;
             
             if (senderName) {
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${senderName}" ✨\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity,\nand happiness to your life.\nMay the divine light of diyas\nbrighten your days and illuminate\nyour path to success.\nWishing you and your family\na blessed and prosperous Diwali!\n\nFrom: *${senderName}* ✨\n\nView the animated greeting card here:\n`;
                 url = window.location.href;
             } else {
                 const name = document.getElementById('nameInput').value.trim();
@@ -517,7 +517,7 @@
                 }
                 const baseUrl = window.location.origin + window.location.pathname;
                 url = `${baseUrl}?from=${encodeURIComponent(name)}`;
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${name}" ✨\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity,\nand happiness to your life.\nMay the divine light of diyas\nbrighten your days and illuminate\nyour path to success.\nWishing you and your family\na blessed and prosperous Diwali!\n\nFrom: *${name}* ✨\n\nView the animated greeting card here:\n`;
             }
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
