@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Happy Diwali Wishes</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -22,6 +23,7 @@
             overflow: hidden;
             position: relative;
             cursor: pointer;
+            touch-action: pan-y;
         }
 
         .fireworks-canvas {
@@ -31,15 +33,16 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            touch-action: none;
         }
 
         .container {
             position: relative;
             z-index: 2;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             max-width: 600px;
-            width: 90%;
+            width: 95%;
             pointer-events: none;
         }
 
@@ -48,12 +51,13 @@
         }
 
         .diya-container {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: float 3s ease-in-out infinite;
+            pointer-events: none;
         }
 
         .diya {
-            font-size: 80px;
+            font-size: 70px;
             filter: drop-shadow(0 0 20px #ffa500);
             animation: flicker 2s ease-in-out infinite;
         }
@@ -72,12 +76,28 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 30px 20px;
             box-shadow: 0 8px 32px rgba(255, 165, 0, 0.3);
             border: 2px solid rgba(255, 165, 0, 0.3);
             animation: slideIn 1s ease-out;
-            max-height: 80vh; /* Restrict height to enable scrollbar */
-            overflow-y: auto; /* Enable vertical scrollbar */
+            max-height: 85vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 215, 0, 0.5) transparent;
+        }
+
+        .greeting-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .greeting-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .greeting-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 3px;
         }
 
         @keyframes slideIn {
@@ -93,11 +113,12 @@
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: 48px;
+            font-size: 42px;
             color: #ffd700;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
             animation: glow 2s ease-in-out infinite;
+            line-height: 1.2;
         }
 
         @keyframes glow {
@@ -106,63 +127,77 @@
         }
 
         .subtitle {
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 300;
         }
 
         .message {
-            font-size: 16px;
+            font-size: 15px;
             color: #ffe4b5;
-            line-height: 1.8;
-            margin-bottom: 25px;
+            line-height: 1.7;
+            margin-bottom: 20px;
         }
 
         .sender-name {
-            font-size: 24px;
+            font-size: 22px;
             color: #ffb347;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             text-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
         }
 
         .share-btn {
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 16px 32px;
+            font-size: 17px;
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 25px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+            width: 100%;
+            max-width: 320px;
+            touch-action: manipulation;
+            user-select: none;
+            min-height: 52px;
+            position: relative;
+            z-index: 10;
         }
 
         .share-btn:active {
-            transform: translateY(-1px);
+            transform: scale(0.98);
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.6);
         }
 
         .whatsapp-icon {
-            font-size: 24px;
+            font-size: 22px;
+            pointer-events: none;
         }
 
         .decorative-dots {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 20px 0;
+            margin: 18px 0;
+            pointer-events: none;
         }
 
         .dot {
@@ -181,31 +216,25 @@
             50% { transform: scale(1.5); opacity: 0.7; }
         }
 
-        @media (max-width: 600px) {
-            .title { font-size: 36px; }
-            .subtitle { font-size: 18px; }
-            .message { font-size: 14px; }
-            .sender-name { font-size: 20px; }
-            .greeting-card { padding: 30px 20px; }
-        }
-
         .name-input-container {
-            margin-top: 20px;
+            margin-top: 15px;
             display: none;
         }
 
         .name-input {
             background: rgba(255, 255, 255, 0.2);
             border: 2px solid rgba(255, 215, 0, 0.5);
-            border-radius: 10px;
-            padding: 12px 20px;
+            border-radius: 12px;
+            padding: 14px 18px;
             color: white;
             font-size: 16px;
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
             margin: 10px auto;
+            display: block;
             text-align: center;
             font-family: 'Poppins', sans-serif;
+            touch-action: manipulation;
         }
 
         .name-input::placeholder {
@@ -222,19 +251,23 @@
             background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
             color: #2d0052;
             border: none;
-            padding: 12px 35px;
+            padding: 14px 30px;
             font-size: 16px;
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 15px;
+            margin: 8px 5px;
             transition: all 0.3s ease;
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            touch-action: manipulation;
+            user-select: none;
+            min-height: 50px;
+            min-width: 150px;
         }
 
-        .create-btn:hover, .update-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+        .create-btn:active, .update-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.6);
         }
 
         .tap-hint {
@@ -242,23 +275,92 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
             z-index: 10;
             animation: bounce 2s ease-in-out infinite;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(-10px); }
         }
+
+        @media (max-width: 600px) {
+            .title { 
+                font-size: 34px;
+            }
+            .subtitle { 
+                font-size: 16px;
+            }
+            .message { 
+                font-size: 14px;
+            }
+            .sender-name { 
+                font-size: 20px;
+            }
+            .greeting-card { 
+                padding: 25px 18px;
+                max-height: 83vh;
+            }
+            .diya {
+                font-size: 60px;
+            }
+            .diya-container {
+                margin-bottom: 15px;
+            }
+            .share-btn {
+                font-size: 16px;
+                padding: 14px 28px;
+                max-width: 300px;
+            }
+            .create-btn, .update-btn {
+                font-size: 15px;
+                padding: 13px 26px;
+                min-width: 140px;
+            }
+            .name-input {
+                font-size: 15px;
+                padding: 13px 16px;
+                max-width: 300px;
+            }
+            .tap-hint {
+                font-size: 12px;
+                bottom: 20px;
+                padding: 7px 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .title { 
+                font-size: 30px;
+            }
+            .subtitle { 
+                font-size: 15px;
+            }
+            .message { 
+                font-size: 13px;
+            }
+            .greeting-card { 
+                padding: 20px 15px;
+            }
+            .share-btn {
+                font-size: 15px;
+                padding: 13px 24px;
+            }
+        }
     </style>
 </head>
 <body>
     <canvas class="fireworks-canvas" id="fireworks"></canvas>
     
-    <div class="tap-hint">👆 Tap anywhere to light crackers! 🎆</div>
+    <div class="tap-hint" id="tapHint">👆 Tap anywhere to light crackers! 🎆</div>
 
     <div class="container">
         <div class="diya-container">
@@ -290,24 +392,39 @@
 
             <div id="senderDisplay">
                 <p class="sender-name">~ <span id="senderName">Your Friend</span> 💫</p>
-                <button class="update-btn" id="updateNameBtn" onclick="showUpdateName()">Update Name</button>
+                <div class="button-container">
+                    <button class="update-btn" id="updateNameBtn" onclick="showUpdateName()">Update Name</button>
+                </div>
             </div>
 
             <div class="name-input-container" id="nameInputContainer">
-                <input type="text" class="name-input" id="nameInput" placeholder="Enter your name">
-                <br>
-                <button class="create-btn" onclick="createPersonalizedLink()">Create My Wish</button>
-                <button class="create-btn" id="saveNameBtn" onclick="updatePersonalizedLink()" style="display: none;">Save New Name</button>
+                <input type="text" class="name-input" id="nameInput" placeholder="Enter your name" maxlength="50">
+                <div class="button-container">
+                    <button class="create-btn" id="createBtn" onclick="createPersonalizedLink()">Create My Wish</button>
+                    <button class="create-btn" id="saveNameBtn" onclick="updatePersonalizedLink()" style="display: none;">Save New Name</button>
+                </div>
             </div>
 
-            <button class="share-btn" onclick="shareOnWhatsApp()">
-                <span class="whatsapp-icon">📱</span>
-                Share on WhatsApp
-            </button>
+            <div class="button-container">
+                <button class="share-btn" id="shareBtn" onclick="shareOnWhatsApp()">
+                    <span class="whatsapp-icon">📱</span>
+                    <span>Share on WhatsApp</span>
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
+        // Prevent accidental zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
         // Get sender name from URL
         function getSenderName() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -322,7 +439,7 @@
                 document.getElementById('senderName').textContent = senderName;
                 document.getElementById('senderDisplay').style.display = 'block';
                 document.getElementById('nameInputContainer').style.display = 'none';
-                document.getElementById('updateNameBtn').style.display = 'block';
+                document.getElementById('updateNameBtn').style.display = 'inline-block';
             } else {
                 document.getElementById('senderDisplay').style.display = 'none';
                 document.getElementById('nameInputContainer').style.display = 'block';
@@ -335,7 +452,7 @@
         function showUpdateName() {
             document.getElementById('nameInputContainer').style.display = 'block';
             document.getElementById('createBtn').style.display = 'none';
-            document.getElementById('saveNameBtn').style.display = 'block';
+            document.getElementById('saveNameBtn').style.display = 'inline-block';
             document.getElementById('updateNameBtn').style.display = 'none';
             document.getElementById('nameInput').focus();
         }
@@ -364,13 +481,13 @@
             }
         }
 
-        // Share on WhatsApp
+        // Share on WhatsApp with improved handling
         function shareOnWhatsApp() {
             const senderName = getSenderName();
             let message, url;
             
             if (senderName) {
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom :"${senderName}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${senderName}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
                 url = window.location.href;
             } else {
                 const name = document.getElementById('nameInput').value.trim();
@@ -380,11 +497,17 @@
                 }
                 const baseUrl = window.location.origin + window.location.pathname;
                 url = `${baseUrl}?from=${encodeURIComponent(name)}`;
-                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom :"${name}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
+                message = `🪔 *Happy Diwali! & Happy New Year* 🎆\n\nMay this Diwali bring joy, prosperity, and happiness to your life. May the divine light of diyas brighten your days and illuminate your path to success. Wishing you and your family a blessed and prosperous Diwali!\nFrom: "${name}" ✨\n\n🎇 Tap the screen to light up crackers!\n\nView the animated greeting card here:\n`;
             }
             
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
-            window.open(whatsappUrl, '_blank');
+            
+            // Better handling for mobile
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = whatsappUrl;
+            } else {
+                window.open(whatsappUrl, '_blank');
+            }
         }
 
         // Fireworks Animation
@@ -418,7 +541,6 @@
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
                 
-                // Draw glow
                 const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 3);
                 gradient.addColorStop(0, this.color);
                 gradient.addColorStop(1, 'transparent');
@@ -427,7 +549,6 @@
                 ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Draw particle
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -457,7 +578,6 @@
                 };
                 this.alpha = 1;
                 this.decay = 0.02;
-                this.length = Math.random() * 20 + 10;
             }
 
             draw() {
@@ -488,12 +608,10 @@
             const color = colors[Math.floor(Math.random() * colors.length)];
             const particleCount = 50 * intensity;
             
-            // Create burst particles
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle(x, y, color, intensity));
             }
             
-            // Create sparks
             for (let i = 0; i < 15 * intensity; i++) {
                 sparks.push(new Spark(x, y, color));
             }
@@ -503,7 +621,6 @@
             ctx.fillStyle = 'rgba(10, 0, 21, 0.15)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Update and draw particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 const particle = particles[i];
                 if (particle.alpha <= 0) {
@@ -514,7 +631,6 @@
                 }
             }
 
-            // Update and draw sparks
             for (let i = sparks.length - 1; i >= 0; i--) {
                 const spark = sparks[i];
                 if (spark.alpha <= 0) {
@@ -533,7 +649,6 @@
         const minFireworkInterval = 100;
 
         function handleInteraction(e) {
-            e.preventDefault();
             const now = Date.now();
             
             if (now - lastFireworkTime < minFireworkInterval) return;
@@ -553,13 +668,12 @@
         }
 
         canvas.addEventListener('click', handleInteraction);
-        canvas.addEventListener('touchstart', handleInteraction);
+        canvas.addEventListener('touchstart', handleInteraction, { passive: true });
         canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
             if (e.touches.length > 0) {
                 handleInteraction(e);
             }
-        });
+        }, { passive: true });
 
         // Start animation
         animate();
@@ -571,7 +685,12 @@
         let hintHidden = false;
         function hideHint() {
             if (!hintHidden) {
-                document.querySelector('.tap-hint').style.display = 'none';
+                const hint = document.getElementById('tapHint');
+                hint.style.transition = 'opacity 0.5s ease';
+                hint.style.opacity = '0';
+                setTimeout(() => {
+                    hint.style.display = 'none';
+                }, 500);
                 hintHidden = true;
             }
         }
