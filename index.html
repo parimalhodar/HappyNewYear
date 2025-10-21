@@ -60,7 +60,7 @@
             padding: 30px;
             margin: 30px 0;
             border-left: 5px solid #ff9933;
-            text-align: left;
+            text-align: center;
         }
 
         .message {
@@ -120,7 +120,7 @@
         }
 
         .btn {
-            background: linear-gradient(to right, #ff9933, #ff6600);
+            background: linear-gradient(to right, #25D366, #128C7E);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -130,7 +130,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 153, 51, 0.4);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -138,7 +138,7 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 153, 51, 0.6);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
         }
 
         .btn i {
@@ -147,7 +147,7 @@
         }
 
         .btn-secondary {
-            background: linear-gradient(to right, #3498db, #2980b9);
+            background: linear-gradient(to right, #ff9933, #ff6600);
         }
 
         .diya-container {
@@ -251,67 +251,36 @@
             <div class="input-title">Create Your Personal Diwali Wish</div>
             <input type="text" id="senderName" placeholder="Enter Your Name">
             <div>
-                <button class="btn" onclick="updateSender()">
-                    <i class="fas fa-user-edit"></i> Update Sender Name
+                <button class="btn" onclick="shareOnWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Share on WhatsApp
                 </button>
                 <button class="btn btn-secondary" onclick="resetForm()">
                     <i class="fas fa-redo"></i> Create New
                 </button>
             </div>
-            <p class="instructions">Enter your name above and click "Update Sender Name" to personalize the message, then share on WhatsApp!</p>
+            <p class="instructions">Enter your name above and click "Share on WhatsApp" to send personalized Diwali wishes!</p>
         </div>
-        
-        <button class="btn" onclick="shareOnWhatsApp()">
-            <i class="fab fa-whatsapp"></i> Share on WhatsApp
-        </button>
     </div>
     
     <footer>Made with ❤️ for Friends & Family | Happy Diwali 2024</footer>
 
     <script>
-        // Function to update sender name
-        function updateSender() {
-            const senderName = document.getElementById('senderName').value.trim();
-            const senderDisplay = document.getElementById('senderDisplay');
-            
-            if (senderName) {
-                senderDisplay.textContent = `From: ${senderName.toUpperCase()}`;
-                // Save to localStorage
-                localStorage.setItem('diwaliSender', senderName);
-                alert(`Sender name updated to: ${senderName}`);
-            } else {
-                alert('Please enter your name');
-            }
-        }
-        
-        // Function to reset form and create new message
-        function resetForm() {
-            document.getElementById('senderName').value = '';
-            document.getElementById('senderDisplay').textContent = 'From: PARIMAL HODAR';
-            localStorage.removeItem('diwaliSender');
-            alert('Form reset! You can now enter a new name.');
-        }
-        
         // Function to share on WhatsApp
         function shareOnWhatsApp() {
-            const senderName = document.getElementById('senderName').value.trim() || 
-                              localStorage.getItem('diwaliSender') || 
-                              'PARIMAL HODAR';
+            const senderName = document.getElementById('senderName').value.trim() || 'PARIMAL HODAR';
             
+            // Format the message exactly as requested
             const message = `🎇 Happy Diwali & New Year 2025! 🎆%0A%0AWishing you a bright Diwali filled with happiness, success & peace! 🌟%0A%0AFrom: ${senderName.toUpperCase()}%0A%0Ahttps://parimalhodar.github.io/HappyNewYear/`;
             
             const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
         
-        // Load saved sender name on page load
-        window.onload = function() {
-            const savedSender = localStorage.getItem('diwaliSender');
-            if (savedSender) {
-                document.getElementById('senderName').value = savedSender;
-                document.getElementById('senderDisplay').textContent = `From: ${savedSender.toUpperCase()}`;
-            }
-        };
+        // Function to reset form and create new message
+        function resetForm() {
+            document.getElementById('senderName').value = '';
+            alert('Form reset! You can now enter a new name.');
+        }
     </script>
 </body>
 </html>
