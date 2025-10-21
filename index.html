@@ -1,392 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Your Diwali & New Year Wish!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Diwali Wishes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Meta Tags for Social Sharing (WhatsApp, Facebook, etc.) -->
-  <meta property="og:title" content="A Special Diwali & New Year Wish!">
-  <meta property="og:description" content="Someone sent you a beautiful greeting for the festival of lights!">
-  <meta property="og:image" content="https://i.imgur.com/7z3kR9b.gif">
-  <meta property="og:type" content="website">
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #4a0080 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
 
-  <style>
-    /* Import festive Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Poppins:wght@400;600&display=swap');
+        .fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    /* ==== ANIMATIONS ==== */
-    @keyframes text-glow {
-      0%, 100% { color: #ffe6a7; text-shadow: 0 0 10px #ffc107, 0 0 20px #ffc107; }
-      50%      { color: #fff8e1; text-shadow: 0 0 20px #ffeb3b, 0 0 30px #ffc107, 0 0 40px #ff9800; }
-    }
-    @keyframes card-entry {
-      from { transform: translateY(40px) scale(0.95); opacity: 0; }
-      to   { transform: translateY(0) scale(1); opacity: 1; }
-    }
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(0); }
-      50%      { opacity: 1; transform: scale(1.2); }
-      75%      { opacity: 0; }
-    }
-    @keyframes diya-flicker {
-      0%, 100% { opacity: 1; transform: scale(1); filter: brightness(1.1); }
-      50%      { opacity: 0.9; transform: scale(1.05); filter: brightness(1.3); }
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 90%;
+        }
 
-    /* ==== PAGE LAYOUT ==== */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(-45deg, #4c0000, #a80000, #ff5252, #ff8c42);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      font-family: 'Poppins', 'Segoe UI', sans-serif;
-      padding: 20px;
-      box-sizing: border-box;
-      overflow: hidden;
-      text-align: center;
-    }
+        .diya-container {
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
 
-    /* Decorative Elements */
-    .diya {
-      position: absolute;
-      font-size: 2.5rem;
-      animation: diya-flicker 2.5s ease-in-out infinite;
-      text-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
-      pointer-events: none; /* Prevents them from being clickable */
-    }
-    .diya.d1 { top: 10%; left: 10%; animation-delay: 0.5s; }
-    .diya.d2 { top: 20%; right: 8%; }
-    .diya.d3 { bottom: 15%; left: 5%; animation-delay: 1s; }
-    .diya.d4 { bottom: 10%; right: 15%; animation-delay: 1.5s; }
+        .diya {
+            font-size: 80px;
+            filter: drop-shadow(0 0 20px #ffa500);
+            animation: flicker 2s ease-in-out infinite;
+        }
 
-    .sparkle {
-      position: absolute;
-      width: 10px; height: 10px;
-      background: gold;
-      border-radius: 50%;
-      box-shadow: 0 0 10px gold;
-      animation: sparkle 4s ease-in-out infinite;
-      pointer-events: none;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
 
-    /* ==== Main Containers ==== */
-    .container {
-      max-width: 600px;
-      width: 100%;
-      position: relative;
-    }
-    .card {
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(12px);
-      padding: 30px 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 50px rgba(0,0,0,0.4);
-      border: 2px solid rgba(255, 215, 0, 0.7);
-      animation: card-entry 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 20px #ffa500); }
+            50% { opacity: 0.8; filter: drop-shadow(0 0 30px #ff8c00); }
+        }
 
-    /* ==== Creation Form Styles ==== */
-    #creation-form h2 {
-      font-family: 'Tangerine', cursive;
-      font-size: 3rem; margin: 0 0 20px 0;
-      color: #ffd700; font-weight: 700;
-      animation: text-glow 2s infinite alternate;
-    }
-    .input-field {
-      width: 100%; padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px; font-size: 1.1rem;
-      box-sizing: border-box; background: rgba(255,255,255,0.9);
-      color: #333; margin-bottom: 20px;
-      resize: vertical;
-    }
-    .input-field:focus {
-      outline: none; border-color: #ff8c42;
-      box-shadow: 0 0 10px rgba(255, 140, 66, 0.5);
-    }
-    #createBtn {
-      padding: 15px 30px;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-      color: #fff; border: none; border-radius: 50px;
-      cursor: pointer; font-weight: bold; font-size: 1.2rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
-    }
-    #createBtn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
-    }
+        .greeting-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(255, 165, 0, 0.3);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            animation: slideIn 1s ease-out;
+        }
 
-    /* ==== Greeting Card Display Styles ==== */
-    #greeting-card .headline {
-      font-family: 'Tangerine', cursive;
-      font-size: clamp(3rem, 15vw, 4.5rem);
-      margin: 0 0 15px 0;
-      color: #fff8e1;
-      animation: text-glow 2.5s ease-in-out infinite alternate;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-    .wish-text {
-      font-size: 1.15rem; color: #ffebcd; line-height: 1.7;
-    }
-    #customMessageDisplay {
-      font-style: italic;
-      color: #fff;
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-    .sender-note {
-      margin-top: 25px; font-style: italic;
-      color: #ffd700; font-size: 1.2rem; font-weight: 600;
-    }
-    .gif-container img {
-      max-width: 100%; height: auto;
-      border-radius: 15px; margin: 20px 0;
-      border: 3px solid #ffd700;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-    }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    /* ==== Share Buttons ==== */
-    #share-buttons {
-      display: flex; flex-direction: column;
-      gap: 15px; margin-top: 25px;
-    }
-    .share-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 10px; padding: 15px 25px;
-      color: #fff; border: none; border-radius: 50px;
-      font-size: 1.1rem; font-weight: bold; text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: all 0.3s ease; cursor: pointer;
-    }
-    .share-btn:hover { transform: scale(1.05); }
-    #whatsappButton { background: #25D366; }
-    #copyButton { background: #ff8e53; }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            animation: glow 2s ease-in-out infinite;
+        }
 
-    /* ==== Music & Toast ==== */
-    #musicBtn {
-      position: fixed; top: 20px; right: 20px;
-      background: rgba(0,0,0,0.5); color: white;
-      border: none; border-radius: 50%;
-      width: 50px; height: 50px; font-size: 1.5rem;
-      cursor: pointer; z-index: 999;
-      display: flex; justify-content: center; align-items: center;
-    }
-    #toast {
-      position: fixed; bottom: -100px; left: 50%;
-      transform: translateX(-50%);
-      background: #333; color: #fff;
-      padding: 12px 25px; border-radius: 50px;
-      transition: bottom 0.5s ease; z-index: 1000;
-    }
-    #toast.show { bottom: 30px; }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 1); }
+        }
 
-    /* ==== Responsive Design ==== */
-    @media (max-width: 600px) {
-      .card { padding: 25px; }
-    }
-  </style>
+        .subtitle {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #ffe4b5;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .sender-name {
+            font-size: 24px;
+            color: #ffb347;
+            font-weight: 600;
+            margin-top: 20px;
+            text-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        .share-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .whatsapp-icon {
+            font-size: 24px;
+        }
+
+        .decorative-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .title { font-size: 36px; }
+            .subtitle { font-size: 18px; }
+            .message { font-size: 14px; }
+            .sender-name { font-size: 20px; }
+            .greeting-card { padding: 30px 20px; }
+        }
+
+        .name-input-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .name-input {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            color: #2d0052;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+        }
+    </style>
 </head>
 <body>
+    <canvas class="fireworks-canvas" id="fireworks"></canvas>
+    
+    <div class="container">
+        <div class="diya-container">
+            <div class="diya">🪔</div>
+        </div>
 
-  <!-- Background Decorative Elements -->
-  <div class="diya d1">🪔</div> <div class="diya d2">🪔</div>
-  <div class="diya d3">🪔</div> <div class="diya d4">🪔</div>
+        <div class="greeting-card">
+            <h1 class="title">Happy Diwali!</h1>
+            
+            <div class="decorative-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
 
-  <!-- Music Controls -->
-  <button id="musicBtn">🔈</button>
-  <audio id="bgMusic" loop>
-    <!-- You can replace this audio source with your own -->
-    <source src="https://dl.dropbox.com/s/b71v4s460bin0px/diwali-lounge-music.mp3" type="audio/mpeg">
-  </audio>
-  
-  <div class="container">
-    <!-- This container will be dynamically filled by JavaScript -->
-    <div id="content-container"></div>
-  </div>
+            <p class="subtitle">✨ Festival of Lights ✨</p>
+            
+            <p class="message">
+                May this Diwali bring joy, prosperity, and happiness to your life. 
+                May the divine light of diyas brighten your days and illuminate your path to success.
+                Wishing you and your family a blessed and prosperous Diwali! 🎆
+            </p>
 
-  <!-- Toast Notification element -->
-  <div id="toast"></div>
+            <div class="decorative-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
 
-  <!-- HTML TEMPLATES (hidden until used by JavaScript) -->
-  <template id="form-template">
-    <div id="creation-form" class="card">
-      <h2>Create Your Diwali Wish</h2>
-      <input type="text" id="senderNameInput" class="input-field" placeholder="Enter Your Name..." required>
-      <textarea id="customMessageInput" class="input-field" placeholder="Add a personal message (optional)..." rows="3"></textarea>
-      <button id="createBtn" onclick="createWish()">Create Wish Link ✨</button>
+            <div id="senderDisplay">
+                <p class="sender-name">~ <span id="senderName">Your Friend</span> 💫</p>
+            </div>
+
+            <div class="name-input-container" id="nameInputContainer">
+                <input type="text" class="name-input" id="nameInput" placeholder="Enter your name">
+                <br>
+                <button class="create-btn" onclick="createPersonalizedLink()">Create My Wish</button>
+            </div>
+
+            <button class="share-btn" onclick="shareOnWhatsApp()">
+                <span class="whatsapp-icon">📱</span>
+                Share on WhatsApp
+            </button>
+        </div>
     </div>
-  </template>
 
-  <template id="greeting-template">
-    <div id="greeting-card" class="card">
-      <h1 class="headline">Happy Diwali!</h1>
-      <div class="gif-container">
-        <img src="https://i.imgur.com/7z3kR9b.gif" alt="Happy Diwali Animated GIF">
-      </div>
-      <p id="customMessageDisplay" class="wish-text"></p>
-      <p class="wish-text">May the festival of lights fill your life with a glow of happiness and a sparkle of joy. ✨</p>
-      <p class="wish-text">Wishing you a prosperous and wonderful New Year! 🎉</p>
-      <p class="sender-note">
-        With Best Wishes,<br>
-        <b id="senderNameDisplay">Your Friend</b>
-      </p>
-      <div id="share-buttons">
-        <a id="whatsappButton" class="share-btn" href="#" onclick="shareToWhatsApp(); return false;">📱 Share on WhatsApp</a>
-        <button id="copyButton" class="share-btn" onclick="copyLink()">🔗 Copy Link</button>
-      </div>
-    </div>
-  </template>
-
-  <script>
-    // Helper to get elements easily
-    const $ = (selector) => document.querySelector(selector);
-    const contentContainer = $('#content-container');
-
-    // Function to show a temporary message (a "toast")
-    const showToast = (message) => {
-      const toast = $('#toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    };
-
-    // Function to dynamically create background sparkles
-    const createSparkles = () => {
-      const body = $('body');
-      for (let i = 0; i < 30; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = `${Math.random() * 100}%`;
-        sparkle.style.top = `${Math.random() * 100}%`;
-        sparkle.style.animationDelay = `${Math.random() * 4}s`;
-        sparkle.style.animationDuration = `${Math.random() * 2 + 3}s`;
-        body.appendChild(sparkle);
-      }
-    };
-
-    // Main logic to decide what to show on the page
-    const handlePageLoad = () => {
-      const params = new URLSearchParams(window.location.search);
-      const senderName = params.get('from');
-      const customMessage = params.get('msg'); // Check for a custom message
-
-      if (senderName) {
-        // If a sender's name is in the URL, show the greeting card
-        const decodedSender = decodeURIComponent(senderName.replace(/\+/g, ' '));
-        
-        // Use the greeting template
-        const greetingTemplate = $('#greeting-template').content.cloneNode(true);
-        contentContainer.appendChild(greetingTemplate);
-        
-        // Fill in the sender's name
-        $('#senderNameDisplay').textContent = decodedSender;
-        document.title = `A Diwali Wish from ${decodedSender}!`;
-
-        // Display the custom message if it exists
-        if (customMessage) {
-            const decodedMessage = decodeURIComponent(customMessage.replace(/\+/g, ' '));
-            const messageElement = $('#customMessageDisplay');
-            messageElement.textContent = `"${decodedMessage}"`;
-        } else {
-            // If no custom message, hide the paragraph element
-            $('#customMessageDisplay').style.display = 'none';
+    <script>
+        // Get sender name from URL
+        function getSenderName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('from');
+            return name ? decodeURIComponent(name) : null;
         }
+
+        // Initialize page
+        function initializePage() {
+            const senderName = getSenderName();
+            if (senderName) {
+                document.getElementById('senderName').textContent = senderName;
+                document.getElementById('senderDisplay').style.display = 'block';
+                document.getElementById('nameInputContainer').style.display = 'none';
+            } else {
+                document.getElementById('senderDisplay').style.display = 'none';
+                document.getElementById('nameInputContainer').style.display = 'block';
+            }
+        }
+
+        // Create personalized link
+        function createPersonalizedLink() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name) {
+                const baseUrl = window.location.origin + window.location.pathname;
+                const personalizedUrl = `${baseUrl}?from=${encodeURIComponent(name)}`;
+                window.location.href = personalizedUrl;
+            } else {
+                alert('Please enter your name!');
+            }
+        }
+
+        // Share on WhatsApp
+        function shareOnWhatsApp() {
+            const senderName = getSenderName();
+            let message, url;
+            
+            if (senderName) {
+                // If viewing someone's wish, share it
+                message = `🪔 *Happy Diwali!* 🎆\n\n${senderName} has sent you beautiful Diwali wishes! ✨\n\nView the animated greeting card here:\n`;
+                url = window.location.href;
+            } else {
+                // If no name, prompt to create personalized wish
+                const name = document.getElementById('nameInput').value.trim();
+                if (!name) {
+                    alert('Please enter your name first to create a personalized wish!');
+                    return;
+                }
+                const baseUrl = window.location.origin + window.location.pathname;
+                url = `${baseUrl}?from=${encodeURIComponent(name)}`;
+                message = `🪔 *Happy Diwali!* 🎆\n\nI've created a special Diwali wish for you! ✨\n\nView the animated greeting card here:\n`;
+            }
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + url)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Fireworks Animation
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
         
-        // Try to play music automatically (might be blocked by browser)
-        $('#bgMusic').play().catch(() => {});
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-      } else {
-        // If no sender name, show the creation form
-        const formTemplate = $('#form-template').content.cloneNode(true);
-        contentContainer.appendChild(formTemplate);
-      }
-    };
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
-    // Function called by the "Create" button
-    const createWish = () => {
-      const senderName = $('#senderNameInput').value.trim();
-      const customMessage = $('#customMessageInput').value.trim(); // Get custom message
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 8,
+                    y: (Math.random() - 0.5) * 8
+                };
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+            }
 
-      if (!senderName) {
-        showToast('Please enter your name!');
-        return;
-      }
-      
-      // Create the new URL with sender's name and custom message
-      const encodedSender = encodeURIComponent(senderName);
-      let wishURL = `${window.location.origin}${window.location.pathname}?from=${encodedSender}`;
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
 
-      if (customMessage) {
-        const encodedMessage = encodeURIComponent(customMessage);
-        wishURL += `&msg=${encodedMessage}`;
-      }
-      
-      window.location.href = wishURL;
-    };
+            update() {
+                this.velocity.y += 0.1;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= this.decay;
+            }
+        }
 
-    // Function to copy the current wish link
-    const copyLink = () => {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast('✅ Link copied to clipboard!');
-      }).catch(() => {
-        showToast('❌ Failed to copy link.');
-      });
-    };
+        let particles = [];
+        const colors = ['#ffd700', '#ffb347', '#ff6347', '#ff1493', '#00ffff', '#00ff00'];
 
-    // Function to format and open the WhatsApp sharing link
-    const shareToWhatsApp = () => {
-      const senderName = $('#senderNameDisplay').textContent;
-      const link = window.location.href;
-      const params = new URLSearchParams(window.location.search);
-      const customMessage = params.get('msg');
-      
-      let messageText = `🪔✨ ${senderName} is sending you warm wishes for a Happy Diwali & a Prosperous New Year! 🎉\n\n`;
-      
-      // Add the custom message to the share text if it exists
-      if(customMessage) {
-        const decodedMessage = decodeURIComponent(customMessage.replace(/\+/g, ' '));
-        messageText += `"${decodedMessage}"\n\n`;
-      }
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.6;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
 
-      messageText += `Click the link to see your special greeting:\n${link}`;
+        function animate() {
+            ctx.fillStyle = 'rgba(26, 0, 51, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const message = encodeURIComponent(messageText);
-      const whatsappURL = `https://api.whatsapp.com/send?text=${message}`;
-      window.open(whatsappURL, '_blank');
-    };
+            particles.forEach((particle, index) => {
+                if (particle.alpha <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    particle.update();
+                    particle.draw();
+                }
+            });
 
-    // Function to play or pause the music
-    const toggleMusic = () => {
-      const music = $('#bgMusic');
-      const btn = $('#musicBtn');
-      if (music.paused) {
-        music.play();
-        btn.textContent = '🔈';
-      } else {
-        music.pause();
-        btn.textContent = '🔇';
-      }
-    };
-    $('#musicBtn').addEventListener('click', toggleMusic);
+            requestAnimationFrame(animate);
+        }
 
-    // This runs when the page is fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      createSparkles();
-      handlePageLoad();
-    });
-  </script>
+        // Create fireworks periodically
+        setInterval(createFirework, 800);
+        animate();
 
+        // Initialize page on load
+        initializePage();
+    </script>
 </body>
 </html>
