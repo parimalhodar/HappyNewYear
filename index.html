@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Diwali & New Year 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a0033, #000000);
+            background: linear-gradient(135deg, #0c0032, #190061, #240090);
             color: white;
             min-height: 100vh;
             display: flex;
@@ -33,53 +34,75 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
             color: #ffcc00;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
         }
 
-        h2 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
+        .subtitle {
+            font-size: 1.5rem;
             color: #ff9933;
+            margin-bottom: 10px;
         }
 
         .message-box {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            padding: 25px;
-            margin: 25px 0;
+            padding: 30px;
+            margin: 30px 0;
             border-left: 5px solid #ff9933;
+            text-align: left;
         }
 
         .message {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             line-height: 1.6;
             margin-bottom: 15px;
+            color: #fff;
         }
 
         .sender {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #ffcc00;
-            margin-top: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .url {
+            font-size: 1.1rem;
+            color: #a3d9ff;
+            margin-top: 10px;
+            word-break: break-all;
         }
 
         .input-section {
             margin: 30px 0;
-            padding: 20px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
+        }
+
+        .input-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
         }
 
         input {
             width: 100%;
             max-width: 400px;
-            padding: 12px 20px;
+            padding: 14px 20px;
             margin: 15px 0;
             border: none;
             border-radius: 50px;
@@ -87,16 +110,24 @@
             font-size: 1.1rem;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 5px 20px rgba(255, 153, 51, 0.5);
+            transform: scale(1.02);
         }
 
         .btn {
             background: linear-gradient(to right, #ff9933, #ff6600);
             color: white;
             border: none;
-            padding: 14px 35px;
+            padding: 15px 40px;
             margin: 15px 10px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 153, 51, 0.4);
@@ -111,8 +142,12 @@
         }
 
         .btn i {
-            margin-right: 8px;
-            font-size: 1.2rem;
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #3498db, #2980b9);
         }
 
         .diya-container {
@@ -150,17 +185,24 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .instructions {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+            max-width: 600px;
+        }
+
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
-            h2 {
-                font-size: 1.5rem;
+            .subtitle {
+                font-size: 1.3rem;
             }
             
             .message {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
             
             .container {
@@ -175,18 +217,26 @@
                 width: 45px;
                 height: 22px;
             }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>🪔 Happy Diwali 🪔</h1>
-        <h2>🎉 & Happy New Year 2025 🎆</h2>
+        <div class="header">
+            <h1>🪔 Happy Diwali 🪔</h1>
+            <div class="subtitle">🎉 & Happy New Year 2025 🎆</div>
+        </div>
         
         <div class="message-box">
-            <p class="message">🎇 Happy Diwali & New Year 2025! 🎆 Wishing you a bright Diwali and a joyful New Year filled with happiness, success, and peace! 🌟</p>
-            <p class="sender" id="senderDisplay">FROM: </p>
+            <p class="message">🎇 Happy Diwali & New Year 2025! 🎆</p>
+            <p class="message">Wishing you a bright Diwali filled with happiness, success & peace! 🌟</p>
+            <p class="sender" id="senderDisplay">From: PARIMAL HODAR</p>
+            <p class="url">https://parimalhodar.github.io/HappyNewYear/</p>
         </div>
         
         <div class="diya-container">
@@ -198,11 +248,17 @@
         </div>
         
         <div class="input-section">
-            <p>Enter your name to personalize the message:</p>
-            <input type="text" id="senderName" placeholder="Your Name">
-            <button class="btn" onclick="updateSender()">
-                <i class="fas fa-user-edit"></i> Update Sender
-            </button>
+            <div class="input-title">Create Your Personal Diwali Wish</div>
+            <input type="text" id="senderName" placeholder="Enter Your Name">
+            <div>
+                <button class="btn" onclick="updateSender()">
+                    <i class="fas fa-user-edit"></i> Update Sender Name
+                </button>
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-redo"></i> Create New
+                </button>
+            </div>
+            <p class="instructions">Enter your name above and click "Update Sender Name" to personalize the message, then share on WhatsApp!</p>
         </div>
         
         <button class="btn" onclick="shareOnWhatsApp()">
@@ -210,7 +266,7 @@
         </button>
     </div>
     
-    <footer>Made with ❤️ for Friends & Family</footer>
+    <footer>Made with ❤️ for Friends & Family | Happy Diwali 2024</footer>
 
     <script>
         // Function to update sender name
@@ -219,21 +275,30 @@
             const senderDisplay = document.getElementById('senderDisplay');
             
             if (senderName) {
-                senderDisplay.textContent = `FROM: ${senderName}`;
+                senderDisplay.textContent = `From: ${senderName.toUpperCase()}`;
                 // Save to localStorage
                 localStorage.setItem('diwaliSender', senderName);
+                alert(`Sender name updated to: ${senderName}`);
             } else {
                 alert('Please enter your name');
             }
+        }
+        
+        // Function to reset form and create new message
+        function resetForm() {
+            document.getElementById('senderName').value = '';
+            document.getElementById('senderDisplay').textContent = 'From: PARIMAL HODAR';
+            localStorage.removeItem('diwaliSender');
+            alert('Form reset! You can now enter a new name.');
         }
         
         // Function to share on WhatsApp
         function shareOnWhatsApp() {
             const senderName = document.getElementById('senderName').value.trim() || 
                               localStorage.getItem('diwaliSender') || 
-                              'Your Friend';
+                              'PARIMAL HODAR';
             
-            const message = `🎇 Happy Diwali & New Year 2025! 🎆 Wishing you a bright Diwali and a joyful New Year filled with happiness, success, and peace! 🌟%0A%0AFROM: ${senderName}%0A%0Ahttps://parimalhodar.github.io/HappyNewYear/`;
+            const message = `🎇 Happy Diwali & New Year 2025! 🎆%0A%0AWishing you a bright Diwali filled with happiness, success & peace! 🌟%0A%0AFrom: ${senderName.toUpperCase()}%0A%0Ahttps://parimalhodar.github.io/HappyNewYear/`;
             
             const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
             window.open(whatsappUrl, '_blank');
@@ -244,7 +309,7 @@
             const savedSender = localStorage.getItem('diwaliSender');
             if (savedSender) {
                 document.getElementById('senderName').value = savedSender;
-                document.getElementById('senderDisplay').textContent = `FROM: ${savedSender}`;
+                document.getElementById('senderDisplay').textContent = `From: ${savedSender.toUpperCase()}`;
             }
         };
     </script>
