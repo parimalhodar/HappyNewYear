@@ -27,6 +27,7 @@
     font-size: 1.2em;
     color: #fff;
     margin-top: 10px;
+    min-height: 1.2em; /* Prevents layout shift when name loads */
   }
   .share-btn {
     background: linear-gradient(45deg, #25D366, #128C7E);
@@ -51,6 +52,10 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
+  .name-input-container p {
+    color: white; 
+    margin-bottom: 15px;
+  }
   .name-input-container input[type="text"] {
     padding: 10px;
     border: 2px solid gold;
@@ -59,6 +64,7 @@
     color: gold;
     font-size: 1em;
     outline: none;
+    max-width: 150px;
   }
   .name-input-container button {
     margin-left: 10px;
@@ -78,68 +84,48 @@
 <body>
 
   <h1>🎇 Happy Diwali</h1>
-  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay">Loading...</span></p>
+  <p class="sender-name"><strong>- From: </strong><span id="senderNameDisplay"></span></p>
 
   <div id="inputForm" class="name-input-container" style="display: none;">
-    <p style="color: white; margin-bottom: 15px;">Enter your name to share this wish:</p>
+    <p>Enter your name to personalize your wish:</p>
     <input type="text" id="userNameInput" placeholder="Your Name" maxlength="20">
     <button onclick="setNameAndShare()">Share Now</button>
   </div>
 
   <button class="share-btn" id="shareButton" onclick="shareOnWhatsApp()" style="display: none;">
-    🎉 Share with Your Name
+    🎉 Share this Personalized Wish
   </button>
 
   <script>
-    // Function to get a URL parameter by name
+    // 1. Function to get the 'name' parameter from the URL (?name=Sagar)
     function getParameterByName(name, url = window.location.href) {
       name = name.replace(/[\[\]]/g, '\\$&');
       const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
             results = regex.exec(url);
       if (!results) return null;
       if (!results[2]) return '';
+      // Decode the URL part and replace '+' with space
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
-    // Function to initialize the page based on the URL
-    function initializePage() {
-      // 1. Get the sender's name from the URL
-      let senderName = getParameterByName('name');
-      const senderNameDisplay = document.getElementById('senderNameDisplay');
-      const shareButton = document.getElementById('shareButton');
-      const inputForm = document.getElementById('inputForm');
-
-      if (senderName) {
-        // Name is in the URL, display it
-        senderName = senderName.trim();
-        senderNameDisplay.textContent = senderName;
-        shareButton.style.display = 'block'; // Show the share button
-        document.title = `🎇 Happy Diwali from ${senderName}`;
-      } else {
-        // No name in the URL, prompt the user
-        senderNameDisplay.textContent = 'A loved one';
-        inputForm.style.display = 'block'; // Show the input form
-      }
-    }
-
-    // Function to handle sharing when the name is already set
+    // 2. Function to handle sharing after the name is set
     function shareOnWhatsApp() {
+      // Get the name currently displayed on the page
       const currentSenderName = document.getElementById('senderNameDisplay').textContent;
       
-      // The base URL for the greeting page (without any name parameter)
-      // This ensures the link shared to the next person will prompt them for THEIR name
+      // THIS IS THE KEY: We only use the base URL (e.g., https://parimalhodar.github.io/HappyNewYear/)
+      // The next receiver will be prompted to enter THEIR name.
       const baseUrl = window.location.origin + window.location.pathname;
 
-      // The message to be shared on WhatsApp
-      // It includes the current sender's name and the base link for the next person
-      const message = `✨ Wishing you a very Happy Diwali! 🪔\n\n- From: ${currentSenderName}\n\nCreate your own personalized wish here:\n${baseUrl}`;
+      // The personalized message for WhatsApp
+      const message = `✨ Wishing you a very Happy Diwali! 🪔\n\n- From: ${currentSenderName}\n\n*Click here to receive and share your own personalized wish:*\n${baseUrl}`;
       
       const encodedMessage = encodeURIComponent(message);
       const url = `https://wa.me/?text=${encodedMessage}`;
       window.open(url, '_blank');
     }
 
-    // Function to set the name from the input field and then share
+    // 3. Function to set the name from the input field and update the URL
     function setNameAndShare() {
       const input = document.getElementById('userNameInput');
       let newSenderName = input.value.trim();
@@ -148,21 +134,44 @@
         // Capitalize the first letter for a cleaner look
         newSenderName = newSenderName.charAt(0).toUpperCase() + newSenderName.slice(1);
         
-        // 1. Update the current URL with the new name parameter
+        // Update the URL in the browser with the new name parameter
+        // e.g., .../index.html?name=Kiran
         const newUrl = window.location.origin + window.location.pathname + `?name=${encodeURIComponent(newSenderName)}`;
-        history.pushState(null, '', newUrl); // Update URL without reloading
+        history.pushState(null, '', newUrl); // Updates URL without page reload
 
-        // 2. Update the display and switch to share mode
+        // Update the display and hide the form, show the share button
         document.getElementById('senderNameDisplay').textContent = newSenderName;
         document.getElementById('inputForm').style.display = 'none';
         document.getElementById('shareButton').style.display = 'block';
         document.title = `🎇 Happy Diwali from ${newSenderName}`;
 
-        // 3. Immediately trigger the sharing function
+        // Immediately trigger the sharing function
         shareOnWhatsApp();
       } else {
         alert("Please enter your name to share!");
         input.focus();
+      }
+    }
+
+    // 4. Initialization function run on page load
+    function initializePage() {
+      const senderNameDisplay = document.getElementById('senderNameDisplay');
+      const shareButton = document.getElementById('shareButton');
+      const inputForm = document.getElementById('inputForm');
+
+      // Get the name from the URL parameter
+      let senderName = getParameterByName('name');
+
+      if (senderName) {
+        // A name was received (e.g., from a friend's share)
+        senderName = senderName.trim();
+        senderNameDisplay.textContent = senderName;
+        shareButton.style.display = 'block'; 
+        document.title = `🎇 Happy Diwali from ${senderName}`;
+      } else {
+        // This is the first visit or they clicked the base share link
+        senderNameDisplay.textContent = 'A loved one';
+        inputForm.style.display = 'block'; // Prompt them to enter their name
       }
     }
 
