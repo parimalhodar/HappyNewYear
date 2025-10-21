@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎇 Happy Diwali</title>
 <style>
+  /* --- CSS Styles (Same as before) --- */
   body {
     background: radial-gradient(circle, #1b1b1b, #000);
     color: gold;
@@ -27,7 +28,7 @@
     font-size: 1.3em;
     color: #fff;
     margin-top: 10px;
-    min-height: 1.3em; /* Prevents layout shift */
+    min-height: 1.3em; 
   }
   .share-btn {
     background: linear-gradient(45deg, #25D366, #128C7E);
@@ -44,7 +45,6 @@
     transform: scale(1.1);
     box-shadow: 0 0 20px #25D366;
   }
-  /* Style for the input form */
   .name-input-container {
     margin-top: 20px;
     padding: 20px;
@@ -97,9 +97,11 @@
   </button>
 
   <script>
-    // --- Utility Functions ---
+    // ----------------------------------------------------------------------
+    // 1. LOGIC FOR READING THE NAME (Receiving Mode)
+    // ----------------------------------------------------------------------
 
-    // Function to get the 'name' parameter from the URL (?name=Sagar)
+    // Reads the 'name' parameter from the URL (e.g., ?name=Parimal)
     function getParameterByName(name, url = window.location.href) {
       name = name.replace(/[\[\]]/g, '\\$&');
       const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -109,60 +111,69 @@
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
-    // Function for real-time preview (UPDATED)
+    // Handles the core page setup on load
+    function initializePage() {
+      const senderNameDisplay = document.getElementById('senderNameDisplay');
+      const shareButton = document.getElementById('shareButton');
+      const inputForm = document.getElementById('inputForm');
+      const userNameInput = document.getElementById('userNameInput');
+
+      let senderName = getParameterByName('name'); // Check URL for a name
+
+      if (senderName) {
+        // SCENARIO 1: Name is in URL (e.g., Sagar receives Parimal's link: ?name=Parimal)
+        senderName = senderName.trim();
+        senderNameDisplay.textContent = senderName; // Displays "Parimal"
+        document.title = `🎇 Happy Diwali from ${senderName}`;
+        shareButton.style.display = 'block'; // Shows the share button
+      } else {
+        // SCENARIO 2: No name in URL (e.g., Ashok receives the base URL)
+        senderNameDisplay.textContent = 'A loved one'; // Default text
+        inputForm.style.display = 'block'; // Shows the input form
+
+        // Attach real-time preview listener
+        userNameInput.addEventListener('input', updatePreview);
+      }
+    }
+
+    // ----------------------------------------------------------------------
+    // 2. LOGIC FOR UPDATING/SHARING THE NAME (Sharing Mode)
+    // ----------------------------------------------------------------------
+
+    // Updates the displayed name as the user types (Real-time preview)
     function updatePreview() {
       const input = document.getElementById('userNameInput');
       const display = document.getElementById('senderNameDisplay');
       let name = input.value.trim();
       
-      // Capitalize the first letter for the preview
       if (name) {
         name = name.charAt(0).toUpperCase() + name.slice(1);
         display.textContent = name;
       } else {
-        // Fallback when input is empty
         display.textContent = 'A loved one';
       }
     }
 
-
-    // --- Core Logic Functions ---
-
-    // Function to handle sharing after the name is set
-    function shareOnWhatsApp() {
-      const currentSenderName = document.getElementById('senderNameDisplay').textContent;
-      
-      // Get the base URL (e.g., https://parimalhodar.github.io/HappyNewYear/)
-      const baseUrl = window.location.origin + window.location.pathname;
-
-      // The personalized message for WhatsApp
-      const message = `✨ Wishing you a very Happy Diwali! 🪔\n\n- From: ${currentSenderName}\n\n*Click here to receive and share your own personalized wish:*\n${baseUrl}`;
-      
-      const encodedMessage = encodeURIComponent(message);
-      const url = `https://wa.me/?text=${encodedMessage}`;
-      window.open(url, '_blank');
-    }
-
-    // Function to set the name from the input field, update URL, and share
+    // Runs when the user clicks 'Share Now' on the input form
     function setNameAndShare() {
       const input = document.getElementById('userNameInput');
       let newSenderName = input.value.trim();
 
       if (newSenderName) {
-        // Capitalize the first letter for consistency in display and URL
         newSenderName = newSenderName.charAt(0).toUpperCase() + newSenderName.slice(1);
         
-        // Update the URL in the browser with the new name parameter
+        // Key step: Update the current browser URL with the new name parameter
+        // This is necessary because if Sagar opens his new URL, it should show his name
         const newUrl = window.location.origin + window.location.pathname + `?name=${encodeURIComponent(newSenderName)}`;
-        history.pushState(null, '', newUrl);
+        history.pushState(null, '', newUrl); // Changes the URL to .../?name=Sagar
 
-        // Update the display and switch modes
+        // Update the display and switch to "received" mode
         document.getElementById('senderNameDisplay').textContent = newSenderName;
         document.getElementById('inputForm').style.display = 'none';
         document.getElementById('shareButton').style.display = 'block';
         document.title = `🎇 Happy Diwali from ${newSenderName}`;
 
-        // Immediately trigger the sharing function
+        // Immediately trigger sharing (sending the message as Sagar)
         shareOnWhatsApp();
       } else {
         alert("Please enter your name to share!");
@@ -170,29 +181,20 @@
       }
     }
 
-    // Initialization function run on page load
-    function initializePage() {
-      const senderNameDisplay = document.getElementById('senderNameDisplay');
-      const shareButton = document.getElementById('shareButton');
-      const inputForm = document.getElementById('inputForm');
-      const userNameInput = document.getElementById('userNameInput');
+    // Runs when the user clicks 'Share this Personalized Wish'
+    function shareOnWhatsApp() {
+      const currentSenderName = document.getElementById('senderNameDisplay').textContent;
+      
+      // CRITICAL STEP: Get ONLY the base URL (no name parameter)
+      // This ensures the NEXT receiver (Ashok) is prompted to enter his name.
+      const baseUrl = window.location.origin + window.location.pathname;
 
-      let senderName = getParameterByName('name');
-
-      if (senderName) {
-        // View 1: Name was received
-        senderName = senderName.trim();
-        senderNameDisplay.textContent = senderName;
-        document.title = `🎇 Happy Diwali from ${senderName}`;
-        shareButton.style.display = 'block'; 
-      } else {
-        // View 2: No name, prompt user
-        senderNameDisplay.textContent = 'A loved one'; // Initial placeholder
-        inputForm.style.display = 'block';
-
-        // Add the REAL-TIME PREVIEW listener ONLY when the input form is active
-        userNameInput.addEventListener('input', updatePreview);
-      }
+      // Message includes the name currently displayed on the screen
+      const message = `✨ Wishing you a very Happy Diwali! 🪔\n\n- From: ${currentSenderName}\n\n*Click here to receive and share your own personalized wish:*\n${baseUrl}`;
+      
+      const encodedMessage = encodeURIComponent(message);
+      const url = `https://wa.me/?text=${encodedMessage}`;
+      window.open(url, '_blank');
     }
 
     // Run the initialization function when the page loads
