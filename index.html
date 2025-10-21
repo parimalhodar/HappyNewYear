@@ -3,106 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Personalized Greeting Page</title>
+    <title>Personalized Animated Diwali Wish</title>
     
     <style>
-        /* Keyframes for the 'Diya Glow' effect on the name */
-        @keyframes glowing {
-            0% { text-shadow: 0 0 5px #ff6600, 0 0 10px #ff9900; }
-            50% { text-shadow: 0 0 15px #ff6600, 0 0 25px #ffcc00; }
-            100% { text-shadow: 0 0 5px #ff6600, 0 0 10px #ff9900; }
+        /*
+        * 1. Keyframes for Animations
+        */
+        /* Subtle glow for the name text */
+        @keyframes text-glow {
+            0% { color: #ffe6a7; text-shadow: 0 0 5px rgba(255, 204, 0, 0.5); }
+            50% { color: #fff8e1; text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 20px rgba(255, 102, 0, 0.5); }
+            100% { color: #ffe6a7; text-shadow: 0 0 5px rgba(255, 204, 0, 0.5); }
         }
 
-        /* Keyframes for a subtle 'Firework Burst' effect on the image */
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
-            50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 204, 0, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
+        /* Entrance animation for the whole card */
+        @keyframes card-entry {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        /* General Styles */
+        /* * 2. General Body and Layout 
+        */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #0d1a26; /* Darker background for light contrast */
+            /* Festive background gradient */
+            background: linear-gradient(135deg, #a80000 0%, #ff5252 50%, #a80000 100%);
+            color: #fff;
             text-align: center;
             padding: 20px;
-            color: #fff;
         }
 
         .greeting-container {
-            background-color: #1a2c3a;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white card */
+            backdrop-filter: blur(5px);
             padding: 40px 60px;
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(255, 102, 0, 0.3); /* Overall subtle glow */
-            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            max-width: 650px;
             width: 90%;
-            border: 1px solid #ff6600;
+            border: 5px solid gold; /* Gold border for a premium look */
+            /* Apply card entry animation */
+            animation: card-entry 1s ease-out forwards;
+        }
+
+        /* * 3. Text and Headings 
+        */
+        p {
+            color: #ffebcd; /* Light beige/gold for surrounding text */
+            font-size: 1.3em;
+            margin: 0 0 10px 0;
         }
 
         h1 {
-            color: #fff;
-            font-size: 2.8em;
-            margin: 10px 0 20px 0;
+            color: #fff8e1; /* Off-white for name */
+            font-size: 3.5em;
+            margin: 5px 0 25px 0;
             text-transform: capitalize;
-            /* Apply the glowing animation to the name */
-            animation: glowing 3s ease-in-out infinite; 
+            /* Apply the glowing text animation to the name */
+            animation: text-glow 2.5s ease-in-out infinite alternate; 
+            font-weight: bold;
         }
 
-        p {
-            color: #ccc;
-            font-size: 1.2em;
-        }
-
+        /* * 4. Animation/Image Area 
+        */
         .animation-area img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin: 20px 0;
-            /* Apply the pulse animation to the image */
-            animation: pulse 2s ease-in-out infinite; 
-            border: 3px solid #ffcc00;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid #ffd700; /* Gold border around the image/gif */
+        }
+        
+        .sender-note {
+            margin-top: 30px;
+            font-style: italic;
+            color: #ffd700;
         }
     </style>
 </head>
 <body>
 
     <div class="greeting-container">
-        <p>Wishing a very Happy Diwali to</p>
+        <p>A Special Wish for you this Diwali!</p>
         
-        <h1 id="userName">a dear friend</h1>
+        <h1 id="userName">A Dear Friend</h1>
         
         <div class="animation-area">
-            <img src="https://via.placeholder.com/400x200?text=Your+Animated+Diwali+Graphic+Here" alt="Happy Diwali Animation">
+            <img src="https://via.placeholder.com/600x300?text=Insert+Animated+Diwali+GIF+Here" alt="Happy Diwali Animation">
         </div>
         
-        <p>May this festival of lights fill your life with joy and prosperity.</p>
+        <p>May the divine light of Diwali shine bright in your life and bring peace, prosperity, and happiness.</p>
+        
+        <p class="sender-note">Wishing you and your family a very Happy Diwali!</p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Get the URL parameters (e.g., "?n=pqrimal")
             const urlParams = new URLSearchParams(window.location.search);
+
+            // Extract the value of the 'n' parameter
             let name = urlParams.get('n');
+
+            // Find the element to update
             const userNameElement = document.getElementById('userName');
 
+            // Process and insert the name
             if (name && userNameElement) {
                 // Decode URL and handle spaces
                 name = decodeURIComponent(name.replace(/\+/g, ' '));
                 
-                // Capitalize the first letter
+                // Capitalize the first letter (optional, but good practice)
                 if (name.length > 0) {
                     name = name.charAt(0).toUpperCase() + name.slice(1);
                 }
 
-                // Update the text
+                // Update the text on the webpage
                 userNameElement.textContent = name;
             } else if (userNameElement) {
-                // Default text if no name is provided
-                userNameElement.textContent = 'a dear friend';
+                // Default text if no name is provided in the URL
+                userNameElement.textContent = 'A Dear Friend';
             }
         });
     </script>
