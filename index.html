@@ -27,13 +27,11 @@
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
-            /* CRITICAL FIX for form visibility: Stack elements vertically */
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            /* Festive background gradient */
             background: linear-gradient(135deg, #a80000 0%, #ff5252 50%, #a80000 100%);
             color: #fff;
             text-align: center;
@@ -41,33 +39,31 @@
         }
 
         .greeting-container {
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white card */
+            background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
             padding: 40px 60px;
             border-radius: 20px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
             max-width: 650px;
             width: 90%;
-            border: 5px solid gold; /* Gold border for a premium look */
-            /* Apply card entry animation */
+            border: 5px solid gold;
             animation: card-entry 1s ease-out forwards;
-            margin-top: 20px; /* Space from the form above */
+            margin-top: 20px;
         }
 
         /* * 3. Text and Headings 
         */
         p {
-            color: #ffebcd; /* Light beige/gold for surrounding text */
+            color: #ffebcd;
             font-size: 1.3em;
             margin: 0 0 10px 0;
         }
 
         h1 {
-            color: #fff8e1; /* Off-white for name */
+            color: #fff8e1;
             font-size: 3.5em;
             margin: 5px 0 25px 0;
             text-transform: capitalize;
-            /* Apply the glowing text animation to the name */
             animation: text-glow 2.5s ease-in-out infinite alternate; 
             font-weight: bold;
         }
@@ -80,13 +76,14 @@
             border-radius: 10px;
             margin: 20px 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 2px solid #ffd700; /* Gold border around the image/gif */
+            border: 2px solid #ffd700;
         }
         
         .sender-note {
             margin-top: 30px;
             font-style: italic;
             color: #ffd700;
+            margin-bottom: 20px; /* Added space before the button */
         }
 
         /* --- Form Styling --- */
@@ -111,7 +108,7 @@
         
         #goButton {
             padding: 10px 15px;
-            background-color: #ff6600; /* Festive Button Color */
+            background-color: #ff6600;
             color: white;
             border: none;
             border-radius: 5px;
@@ -124,6 +121,33 @@
         #goButton:hover {
             background-color: #e65c00;
             transform: translateY(-1px);
+        }
+
+        /* --- WhatsApp Button Styling --- */
+        #whatsappButton {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #25D366; /* WhatsApp green */
+            color: white;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.1s;
+            text-decoration: none; /* In case you use an anchor tag */
+        }
+
+        #whatsappButton:hover {
+            background-color: #1DA851;
+            transform: scale(1.03);
+        }
+
+        /* Optional: Style the WhatsApp icon (using text/emoji for simplicity) */
+        #whatsappButton::before {
+            content: '📞'; /* Using a phone emoji as a simple icon */
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -146,6 +170,8 @@
         <p>May the divine light of Diwali shine bright in your life and bring peace, prosperity, and happiness.</p>
         
         <p class="sender-note">Wishing you and your family a very Happy Diwali!</p>
+        
+        <button id="whatsappButton" onclick="sendToWhatsApp()">Share on WhatsApp</button>
     </div>
 
     <script>
@@ -166,7 +192,7 @@
 
                 userNameElement.textContent = name;
                 
-                // OPTIONAL: Pre-fill the input box with the name from the URL
+                // Pre-fill the input box with the name from the URL
                 const inputField = document.getElementById('nameInput');
                 if (inputField) {
                     inputField.value = name;
@@ -183,17 +209,31 @@
             const newName = inputField.value.trim();
 
             if (newName) {
-                // Encode the name to be safe for a URL
                 const encodedName = encodeURIComponent(newName);
-                
-                // Get the base path for GitHub Pages, ignoring any existing parameters
                 const basePath = window.location.pathname;
                 
-                // Redirect the user to the same page with the new 'n' parameter
+                // Redirects to the current page with the new name parameter
                 window.location.href = basePath + '?n=' + encodedName;
             } else {
                 alert('Please enter a name!');
             }
+        }
+        
+        // New Function: Sends the personalized link to WhatsApp
+        function sendToWhatsApp() {
+            // 1. Get the current URL (which already contains the '?n=Name' parameter)
+            const personalizedLink = window.location.href;
+            
+            // 2. Get the name displayed on the card
+            const recipientName = document.getElementById('userName').textContent;
+            
+            // 3. Construct the message
+            const message = `🎊 Happy Diwali, ${recipientName}! 🪔\n\nI've sent a personalized Diwali wish just for you. Click the link below to see it:\n\n${personalizedLink}`;
+            
+            // 4. Encode the message for the URL and open WhatsApp
+            const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappURL, '_blank');
         }
 
         // Run the function when the page loads to check the URL
