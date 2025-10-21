@@ -6,32 +6,27 @@
     <title>Personalized Animated Diwali Wish</title>
     
     <style>
-        /*
-        * 1. Keyframes for Animations
-        */
-        /* Subtle glow for the name text */
+        /* Keyframes for Animations */
         @keyframes text-glow {
             0% { color: #ffe6a7; text-shadow: 0 0 5px rgba(255, 204, 0, 0.5); }
             50% { color: #fff8e1; text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 20px rgba(255, 102, 0, 0.5); }
             100% { color: #ffe6a7; text-shadow: 0 0 5px rgba(255, 204, 0, 0.5); }
         }
 
-        /* Entrance animation for the whole card */
         @keyframes card-entry {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* * 2. General Body and Layout 
-        */
+        /* General Body and Layout */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
+            flex-direction: column; /* Allows form to be above the card */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            /* Festive background gradient */
             background: linear-gradient(135deg, #a80000 0%, #ff5252 50%, #a80000 100%);
             color: #fff;
             text-align: center;
@@ -39,55 +34,89 @@
         }
 
         .greeting-container {
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white card */
+            background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
             padding: 40px 60px;
             border-radius: 20px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
             max-width: 650px;
             width: 90%;
-            border: 5px solid gold; /* Gold border for a premium look */
-            /* Apply card entry animation */
+            border: 5px solid gold;
             animation: card-entry 1s ease-out forwards;
+            margin-top: 20px; /* Space between form and card */
         }
 
-        /* * 3. Text and Headings 
-        */
+        /* Text and Headings */
         p {
-            color: #ffebcd; /* Light beige/gold for surrounding text */
+            color: #ffebcd;
             font-size: 1.3em;
             margin: 0 0 10px 0;
         }
 
         h1 {
-            color: #fff8e1; /* Off-white for name */
+            color: #fff8e1;
             font-size: 3.5em;
             margin: 5px 0 25px 0;
             text-transform: capitalize;
-            /* Apply the glowing text animation to the name */
             animation: text-glow 2.5s ease-in-out infinite alternate; 
             font-weight: bold;
         }
 
-        /* * 4. Animation/Image Area 
-        */
+        /* Animation/Image Area */
         .animation-area img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin: 20px 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 2px solid #ffd700; /* Gold border around the image/gif */
+            border: 2px solid #ffd700;
+        }
+
+        /* --- Form Styling --- */
+        .name-form {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
         }
         
-        .sender-note {
-            margin-top: 30px;
-            font-style: italic;
-            color: #ffd700;
+        #nameInput {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        #goButton {
+            padding: 10px 15px;
+            background-color: #ff6600; /* Festive Button Color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        
+        #goButton:hover {
+            background-color: #e65c00;
+            transform: translateY(-1px);
         }
     </style>
 </head>
 <body>
+
+    <div class="name-form">
+        <input type="text" id="nameInput" placeholder="Enter name here...">
+        <button id="goButton" onclick="generateWish()">Go</button>
+    </div>
 
     <div class="greeting-container">
         <p>A Special Wish for you this Diwali!</p>
@@ -100,37 +129,50 @@
         
         <p>May the divine light of Diwali shine bright in your life and bring peace, prosperity, and happiness.</p>
         
-        <p class="sender-note">Wishing you and your family a very Happy Diwali!</p>
+        <p class="sender-note" style="color:#ffd700; margin-top:30px; font-style:italic;">Wishing you and your family a very Happy Diwali!</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get the URL parameters (e.g., "?n=pqrimal")
+        // Function to read the URL parameter and update the name on the card
+        function updateNameFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-
-            // Extract the value of the 'n' parameter
             let name = urlParams.get('n');
-
-            // Find the element to update
             const userNameElement = document.getElementById('userName');
 
-            // Process and insert the name
             if (name && userNameElement) {
                 // Decode URL and handle spaces
                 name = decodeURIComponent(name.replace(/\+/g, ' '));
                 
-                // Capitalize the first letter (optional, but good practice)
+                // Capitalize the first letter
                 if (name.length > 0) {
                     name = name.charAt(0).toUpperCase() + name.slice(1);
                 }
 
-                // Update the text on the webpage
                 userNameElement.textContent = name;
             } else if (userNameElement) {
                 // Default text if no name is provided in the URL
                 userNameElement.textContent = 'A Dear Friend';
             }
-        });
+        }
+
+        // Function called by the "Go" button to update the URL
+        function generateWish() {
+            const inputField = document.getElementById('nameInput');
+            const newName = inputField.value.trim();
+
+            if (newName) {
+                // Encode the name to be safe for a URL (replaces spaces with %20, etc.)
+                const encodedName = encodeURIComponent(newName);
+                
+                // Redirect the user to the same page with the new 'n' parameter
+                window.location.href = window.location.pathname + '?n=' + encodedName;
+            } else {
+                alert('Please enter a name!');
+            }
+        }
+
+        // Run the function when the page loads to check the URL
+        document.addEventListener('DOMContentLoaded', updateNameFromURL);
     </script>
 
 </body>
